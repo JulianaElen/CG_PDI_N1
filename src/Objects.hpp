@@ -1,8 +1,5 @@
 // Elo Maluco
 // Objects.hpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2024
-
 
 #ifndef __OBJECTS_HPP__
 #define __OBJECTS_HPP__

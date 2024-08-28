@@ -1,8 +1,5 @@
 // Elo Maluco
 // wraps.hpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2024
-
 
 #ifndef __WRAPS_HPP__
 #define __WRAPS_HPP__

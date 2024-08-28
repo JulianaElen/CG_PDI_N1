@@ -72,7 +72,7 @@ endif(NOT GLUT_FOUND)
 set(HDRS
     src/application.hpp
     src/Objects.hpp
-    src/cubo.hpp
+    src/cube.hpp
     src/tinyxml2.h
 )
 
@@ -82,7 +82,7 @@ set(SRCS
     src/main.cpp
     src/application.cpp
     src/Objects.cpp
-    src/cubo.cpp
+    src/cube.cpp
     src/tinyxml2.cpp
 )
 

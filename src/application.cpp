@@ -1,7 +1,5 @@
 // Elo Maluco
 // application.cpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2024
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,7 +17,7 @@ Application::Application(int argc, char** argv)
    	glutInitWindowPosition(100,100);
    	glutCreateWindow("ELO MALUCO");
 	Inicializa();
-
+    insert_object();
 	
 }
 
@@ -30,8 +28,7 @@ Application::~Application()
 //---------------------------------------------------------------------
 void Application::Inicializa (void)
 {   
-    // Define a cor de fundo da janela de visualização como preta
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //cor da janela para pretoé
     xf=50.0f;
     yf=50.0f;
     win=250.0f;
@@ -48,46 +45,40 @@ void Application::Inicializa (void)
 
 void Application::draw()
 {
-     glMatrixMode(GL_MODELVIEW);
-     glLoadIdentity();
-                   
-     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
 
-     glPushMatrix();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa a janela e o Depth Buffer
+    glLoadIdentity();
 
-	glLineWidth(3.0f);//tamanho da linha
-        glBegin(GL_LINES);
-            glColor3f(1,0,0);
-            glVertex3f(0,0,0);
-            glVertex3f(10,0,0);            
-        glEnd();
-        glBegin(GL_LINES);
-            glColor3f(1,1,0);
-            glVertex3f(0,0,0);
-            glVertex3f(0,10,0);
-        glEnd();
-        glBegin(GL_LINES);
-            glColor3f(0,0,1);
-            glVertex3f(0,0,2);
-            glVertex3f(0,0,10);
-        glEnd();   
-        glBegin(GL_LINES);
-            glColor3f(0,0,1);
-            glVertex3f(0,0,2);
-            glVertex3f(0,0,10);
-        glEnd();        
-    	glPopMatrix();
+    // Desenha os eixos
+    glLineWidth(2.0f);
+    glBegin(GL_LINES);
 
+    glColor3f(1.0f, 0.0f, 0.0f); //vermelho
+    glVertex3f(-100.0f, 0.0f, 0.0f);
+    glVertex3f(100.0f, 0.0f, 0.0f);
 
-      for(list<Objects*>::const_iterator it = list_.begin(); it != list_.end(	) ;  ++it)
-      {
-    	   (*it)->draw();
-      }
+    glColor3f(0.0f, 1.0f, 0.0f); //verde
+    glVertex3f(0.0f, -100.0f, 0.0f);
+    glVertex3f(0.0f, 100.0f, 0.0f);
 
-     
-     glFlush();
-     glutSwapBuffers();
+    glColor3f(0.0f, 0.0f, 1.0f); //azual
+    glVertex3f(0.0f, 0.0f, -100.0f);
+    glVertex3f(0.0f, 0.0f, 100.0f);
+
+    glEnd();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    // Desenha os cubos
+    for (auto obj : list_) {
+        obj->draw();
+    }
+
+    // mostrando
+    glutSwapBuffers();
 }
+
 
 //---------------------------------------------------------------------
 void Application::resize(GLsizei w, GLsizei h)
@@ -97,19 +88,19 @@ void Application::resize(GLsizei w, GLsizei h)
     view_w = w;
     view_h = h;                   
 
-    // Inicializa o sistema de coordenadas
-    //glMatrixMode(GL_PROJECTION);
-    //glLoadIdentity();
-    //gluOrtho2D (-win, win, -win, win);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60,(GLdouble)view_w/view_h,1,100);
+    
+    // Aumente a distância da câmera para ter uma visão mais ampla
+    gluPerspective(60, (GLdouble)view_w/view_h, 1, 500); // Ajuste o "far plane" se necessário
 
-    double rate=2.5;
-    gluLookAt(rate*10,rate*20,rate*20,0,0,0,0,0,1);
-    glMatrixMode(GL_MODELVIEW);    
-    glLoadIdentity() ;
+    // Ajuste a posição da câmera para garantir que ela esteja olhando para os cubos
+    gluLookAt(50.0, 50.0, 50.0,  // Posição da câmera
+          0.0, 0.0, 0.0,    // Ponto para onde a câmera olha
+          0.0, 1.0, 0.0);   // Vetor "up"
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 
@@ -181,13 +172,9 @@ void Application::update(int value, void (*func_ptr)(int))
 
 }
 //---------------------------------------------------------------------
-bool Application::insert_object(void)
-{
-	Cubo *obj;
-	//Objects * node = reinterpret_cast<Objects*>(obj);
-	list_.push_back(new Cubo());
-	std::cout << " insert: " << list_.size() << std::endl; 
-
-	return true;
+bool Application::insert_object(void) {
+    Cube* cube = new Cube();
+    list_.push_back(cube);
+    return true;
 }
 

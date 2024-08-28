@@ -10,7 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/pd/Documentos/CG-PDI/cubo_code/src/Objects.cpp" "CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.o" "gcc" "CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.o.d"
   "/home/pd/Documentos/CG-PDI/cubo_code/src/application.cpp" "CMakeFiles/Elo_Maluco.dir/src/application.cpp.o" "gcc" "CMakeFiles/Elo_Maluco.dir/src/application.cpp.o.d"
-  "/home/pd/Documentos/CG-PDI/cubo_code/src/cubo.cpp" "CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o" "gcc" "CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o.d"
+  "/home/pd/Documentos/CG-PDI/cubo_code/src/cube.cpp" "CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o" "gcc" "CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o.d"
   "/home/pd/Documentos/CG-PDI/cubo_code/src/main.cpp" "CMakeFiles/Elo_Maluco.dir/src/main.cpp.o" "gcc" "CMakeFiles/Elo_Maluco.dir/src/main.cpp.o.d"
   "/home/pd/Documentos/CG-PDI/cubo_code/src/tinyxml2.cpp" "CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o" "gcc" "CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o.d"
   )

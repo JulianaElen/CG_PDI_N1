@@ -1,9 +1,5 @@
 // Elo Maluco
 // main.cpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2024
-
-
 
 #include <iostream>
 #include <thread>

@@ -177,29 +177,29 @@ src/application.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/application.cpp.s
 .PHONY : src/application.cpp.s
 
-src/cubo.o: src/cubo.cpp.o
-.PHONY : src/cubo.o
+src/cube.o: src/cube.cpp.o
+.PHONY : src/cube.o
 
 # target to build an object file
-src/cubo.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o
-.PHONY : src/cubo.cpp.o
+src/cube.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o
+.PHONY : src/cube.cpp.o
 
-src/cubo.i: src/cubo.cpp.i
-.PHONY : src/cubo.i
+src/cube.i: src/cube.cpp.i
+.PHONY : src/cube.i
 
 # target to preprocess a source file
-src/cubo.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.i
-.PHONY : src/cubo.cpp.i
+src/cube.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/cube.cpp.i
+.PHONY : src/cube.cpp.i
 
-src/cubo.s: src/cubo.cpp.s
-.PHONY : src/cubo.s
+src/cube.s: src/cube.cpp.s
+.PHONY : src/cube.s
 
 # target to generate assembly for a file
-src/cubo.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.s
-.PHONY : src/cubo.cpp.s
+src/cube.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Elo_Maluco.dir/build.make CMakeFiles/Elo_Maluco.dir/src/cube.cpp.s
+.PHONY : src/cube.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -264,9 +264,9 @@ help:
 	@echo "... src/application.o"
 	@echo "... src/application.i"
 	@echo "... src/application.s"
-	@echo "... src/cubo.o"
-	@echo "... src/cubo.i"
-	@echo "... src/cubo.s"
+	@echo "... src/cube.o"
+	@echo "... src/cube.i"
+	@echo "... src/cube.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

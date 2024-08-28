@@ -349,4 +349,4 @@ CMakeFiles/Elo_Maluco.dir/src/application.cpp.o: \
  /usr/include/glm/gtx/dual_quaternion.inl \
  /usr/include/glm/gtx/string_cast.inl /usr/include/c++/11/cstdarg \
  /usr/include/glm/gtx/transform.hpp /usr/include/glm/gtx/transform.inl \
- /home/pd/Documentos/CG-PDI/cubo_code/src/cubo.hpp
+ /home/pd/Documentos/CG-PDI/cubo_code/src/cube.hpp

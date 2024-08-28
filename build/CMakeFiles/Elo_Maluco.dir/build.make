@@ -111,19 +111,19 @@ CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pd/Documentos/CG-PDI/cubo_code/src/Objects.cpp -o CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.s
 
-CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o: CMakeFiles/Elo_Maluco.dir/flags.make
-CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o: ../src/cubo.cpp
-CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o: CMakeFiles/Elo_Maluco.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pd/Documentos/CG-PDI/cubo_code/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o -MF CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o.d -o CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o -c /home/pd/Documentos/CG-PDI/cubo_code/src/cubo.cpp
+CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o: CMakeFiles/Elo_Maluco.dir/flags.make
+CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o: ../src/cube.cpp
+CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o: CMakeFiles/Elo_Maluco.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pd/Documentos/CG-PDI/cubo_code/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o -MF CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o.d -o CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o -c /home/pd/Documentos/CG-PDI/cubo_code/src/cube.cpp
 
-CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pd/Documentos/CG-PDI/cubo_code/src/cubo.cpp > CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.i
+CMakeFiles/Elo_Maluco.dir/src/cube.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Elo_Maluco.dir/src/cube.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pd/Documentos/CG-PDI/cubo_code/src/cube.cpp > CMakeFiles/Elo_Maluco.dir/src/cube.cpp.i
 
-CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pd/Documentos/CG-PDI/cubo_code/src/cubo.cpp -o CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.s
+CMakeFiles/Elo_Maluco.dir/src/cube.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Elo_Maluco.dir/src/cube.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pd/Documentos/CG-PDI/cubo_code/src/cube.cpp -o CMakeFiles/Elo_Maluco.dir/src/cube.cpp.s
 
 CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: CMakeFiles/Elo_Maluco.dir/flags.make
 CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: ../src/tinyxml2.cpp
@@ -144,7 +144,7 @@ Elo_Maluco_OBJECTS = \
 "CMakeFiles/Elo_Maluco.dir/src/main.cpp.o" \
 "CMakeFiles/Elo_Maluco.dir/src/application.cpp.o" \
 "CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.o" \
-"CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o" \
+"CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o" \
 "CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o"
 
 # External object files for target Elo_Maluco
@@ -153,7 +153,7 @@ Elo_Maluco_EXTERNAL_OBJECTS =
 Elo_Maluco: CMakeFiles/Elo_Maluco.dir/src/main.cpp.o
 Elo_Maluco: CMakeFiles/Elo_Maluco.dir/src/application.cpp.o
 Elo_Maluco: CMakeFiles/Elo_Maluco.dir/src/Objects.cpp.o
-Elo_Maluco: CMakeFiles/Elo_Maluco.dir/src/cubo.cpp.o
+Elo_Maluco: CMakeFiles/Elo_Maluco.dir/src/cube.cpp.o
 Elo_Maluco: CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o
 Elo_Maluco: CMakeFiles/Elo_Maluco.dir/build.make
 Elo_Maluco: /usr/lib/x86_64-linux-gnu/libGL.so

@@ -1,7 +1,5 @@
 // Elo Maluco
 // application.hpp
-// Prof. Giovani Bernardes Vitor
-// ECOI24 - 2024
 
 #include <iostream>
 #include <vector>
@@ -11,7 +9,7 @@
 
 #include "tinyxml2.h"
 #include "Objects.hpp"
-#include "cubo.hpp"
+#include "cube.hpp"
 
 #ifndef __APPLICATION_HPP__
 #define __APPLICATION_HPP__
