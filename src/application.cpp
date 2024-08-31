@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include "application.hpp"
 
-
 ///////////////////////////////////////////////////////////////////////
 // Application Class
 Application::Application(int argc, char** argv)
@@ -18,7 +17,6 @@ Application::Application(int argc, char** argv)
    	glutCreateWindow("ELO MALUCO");
 	Inicializa();
     insert_object();
-	
 }
 
 //---------------------------------------------------------------------
@@ -45,7 +43,7 @@ void Application::Inicializa (void)
 
 void Application::draw()
 {
-    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST); // arruma a profundidade
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa a janela e o Depth Buffer
     glLoadIdentity();
@@ -95,7 +93,7 @@ void Application::resize(GLsizei w, GLsizei h)
     gluPerspective(60, (GLdouble)view_w/view_h, 1, 500); // Ajuste o "far plane" se necessário
 
     // Ajuste a posição da câmera para garantir que ela esteja olhando para os cubos
-    gluLookAt(50.0, 50.0, 50.0,  // Posição da câmera
+    gluLookAt(100.0, 100.0, 100.0,  // Posição da câmera
           0.0, 0.0, 0.0,    // Ponto para onde a câmera olha
           0.0, 1.0, 0.0);   // Vetor "up"
 
@@ -110,15 +108,15 @@ void Application::KeyboardHandle(unsigned char key, int x, int y)
     switch (key) {
             case 'R': 
             case 'r':// muda a cor corrente para vermelho
-                     glColor3f(1.0f, 1.0f, 0.0f);
+                     glColor3f(1.0f, 0.0f, 0.0f);
                      break;
             case 'G':
             case 'g':// muda a cor corrente para verde
-                     glColor3f(1.0f, 1.0f, 0.0f);
+                     glColor3f(0.0f, 1.0f, 0.0f);
                      break;
             case 'B':
             case 'b':// muda a cor corrente para azul
-                     glColor3f(1.0f, 1.0f, 0.0f);
+                     glColor3f(0.0f, 0.0f, 1.0f);
 			time++;
 			for(list<Objects*>::const_iterator it = list_.begin(); it != list_.end(	) ;  ++it)
       			{

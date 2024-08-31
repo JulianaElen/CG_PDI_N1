@@ -34,7 +34,6 @@ private:
 
 	int time;
 	
-
 	GLfloat xf;
 	GLfloat yf;
 	GLfloat win;
@@ -44,6 +43,7 @@ private:
 	list<Objects*> list_;
 
 private:
+
 	void Inicializa (void);
 	bool insert_object(void);
 	
