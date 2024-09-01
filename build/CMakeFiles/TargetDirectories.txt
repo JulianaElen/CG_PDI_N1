@@ -1,3 +1,0 @@
-/home/pd/Documentos/CG-PDI/cubo_code/build/CMakeFiles/Elo_Maluco.dir
-/home/pd/Documentos/CG-PDI/cubo_code/build/CMakeFiles/edit_cache.dir
-/home/pd/Documentos/CG-PDI/cubo_code/build/CMakeFiles/rebuild_cache.dir
