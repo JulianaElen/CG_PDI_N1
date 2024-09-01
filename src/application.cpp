@@ -53,7 +53,7 @@ string Application::mapColor(const string& code) {
     return "desconhecido";
 }
 
-// Função para processar o XML e armazenar as cores na pilha
+// processa o xml e coloca as cores em uma pilha
 void Application::processXML(const string& filename, stack<string>& colorStack) {
     XMLDocument doc;
     if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
@@ -83,13 +83,13 @@ void Application::processXML(const string& filename, stack<string>& colorStack) 
         }
     }
 }
-void Application::printColorStack(const std::stack<std::string>& colorStack) {
-    // Copia a pilha para não modificar a original
+
+//imprimindo a pilha para conferir se esta certo (apagar depois)
+void Application::printColorStack(const stack<string>& colorStack) {
     stack<string> tempStack = colorStack;
 
     cout << "Conteúdo da pilha:" << endl;
 
-    // Percorre a pilha e imprime os elementos
     while (!tempStack.empty()) {
         cout << tempStack.top() << endl;
         tempStack.pop();
