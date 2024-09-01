@@ -4,3 +4,4 @@
 
 # Ignorar arquivos de configuração local
 .env
+build
