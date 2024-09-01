@@ -1,6 +1,7 @@
 # Ignorar arquivos de build
 /build/
 /dist/
+build/cmake_install.cmake
 
 # Ignorar arquivos de configuração local
 .env
