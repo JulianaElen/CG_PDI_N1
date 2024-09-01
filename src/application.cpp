@@ -17,6 +17,10 @@ Application::Application(int argc, char** argv)
    	glutCreateWindow("ELO MALUCO");
 	Inicializa();
     insert_object();
+
+    stack<string> colorStack;
+    processXML("../data/EloMaluco_estadoAtual_exemplo.xml", colorStack);
+    printColorStack(colorStack);
 }
 
 //---------------------------------------------------------------------
@@ -32,14 +36,65 @@ void Application::Inicializa (void)
     win=250.0f;
     time = 0;
 }
-
-
 //---------------------------------------------------------------------
 //void Application::DisplayFunc()
 //{
 //	glutDisplayFunc(Application::Desenha);
 //}
 //---------------------------------------------------------------------
+
+//mapeanmento das cores de acordo com o codigo
+string Application::mapColor(const string& code) {
+    if (code == "vms" || code == "vmm" || code == "vmi" ) return "vm";
+    if (code == "vds" || code == "vdm" || code == "vdi" ) return "vd";
+    if (code == "ams" || code == "amm" || code == "ami" ) return "am";
+    if (code == "brs" || code == "brm" || code == "bri" ) return "br";
+    if (code == "vzo") return "vzo";
+    return "desconhecido";
+}
+
+// Função para processar o XML e armazenar as cores na pilha
+void Application::processXML(const string& filename, stack<string>& colorStack) {
+    XMLDocument doc;
+    if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
+        cerr << "Erro ao carregar o arquivo XML." << endl;
+        return;
+    }
+
+    XMLElement* root = doc.RootElement();
+    if (root == nullptr) {
+        cerr << "Elemento raiz não encontrado." << endl;
+        return;
+    }
+
+    XMLElement* estadoAtual = root->FirstChildElement("EstadoAtual");
+    if (estadoAtual == nullptr) {
+        cerr << "Elemento EstadoAtual não encontrado." << endl;
+        return;
+    }
+
+    for (XMLElement* row = estadoAtual->FirstChildElement("row"); row != nullptr; row = row->NextSiblingElement("row")) {
+        for (XMLElement* col = row->FirstChildElement("col"); col != nullptr; col = col->NextSiblingElement("col")) {
+            const char* text = col->GetText();
+            if (text) {
+                string code(text);
+                colorStack.push(mapColor(code));
+            }
+        }
+    }
+}
+void Application::printColorStack(const std::stack<std::string>& colorStack) {
+    // Copia a pilha para não modificar a original
+    stack<string> tempStack = colorStack;
+
+    cout << "Conteúdo da pilha:" << endl;
+
+    // Percorre a pilha e imprime os elementos
+    while (!tempStack.empty()) {
+        cout << tempStack.top() << endl;
+        tempStack.pop();
+    }
+}
 
 void Application::draw()
 {

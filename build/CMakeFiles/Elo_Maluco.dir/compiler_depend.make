@@ -599,6 +599,12 @@ CMakeFiles/Elo_Maluco.dir/src/application.cpp.o: ../src/application.cpp \
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/ext/aligned_buffer.h \
   /usr/include/c++/11/bits/list.tcc \
+  /usr/include/c++/11/stack \
+  /usr/include/c++/11/deque \
+  /usr/include/c++/11/bits/stl_deque.h \
+  /usr/include/c++/11/bits/deque.tcc \
+  /usr/include/c++/11/bits/stl_stack.h \
+  /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/GL/glut.h \
   /usr/include/GL/freeglut_std.h \
   /usr/include/GL/gl.h \
@@ -1454,6 +1460,11 @@ CMakeFiles/Elo_Maluco.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/ext/aligned_buffer.h \
   /usr/include/c++/11/bits/list.tcc \
+  /usr/include/c++/11/stack \
+  /usr/include/c++/11/deque \
+  /usr/include/c++/11/bits/stl_deque.h \
+  /usr/include/c++/11/bits/deque.tcc \
+  /usr/include/c++/11/bits/stl_stack.h \
   ../src/tinyxml2.h \
   /usr/include/c++/11/climits \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
@@ -1782,13 +1793,15 @@ CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: ../src/tinyxml2.cpp \
 
 /usr/include/c++/11/bits/invoke.h:
 
-/usr/include/c++/11/bits/uses_allocator.h:
-
 /usr/include/c++/11/tuple:
 
 ../src/cube.cpp:
 
 ../src/cube.hpp:
+
+/usr/include/c++/11/bits/uses_allocator.h:
+
+/usr/include/c++/11/bits/deque.tcc:
 
 /usr/include/c++/11/bits/list.tcc:
 
@@ -1797,6 +1810,8 @@ CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: ../src/tinyxml2.cpp \
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
 /usr/include/c++/11/vector:
+
+/usr/include/c++/11/deque:
 
 ../src/application.hpp:
 
@@ -1844,6 +1859,8 @@ CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: ../src/tinyxml2.cpp \
 
 /usr/include/glm/gtc/constants.hpp:
 
+/usr/include/c++/11/bits/stl_stack.h:
+
 /usr/include/glm/gtc/type_ptr.hpp:
 
 /usr/include/glm/integer.hpp:
@@ -1857,6 +1874,8 @@ CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: ../src/tinyxml2.cpp \
 /usr/include/glm/packing.hpp:
 
 /usr/include/glm/detail/func_trigonometric.inl:
+
+/usr/include/c++/11/stack:
 
 /usr/include/glm/trigonometric.hpp:
 
@@ -2491,6 +2510,8 @@ CMakeFiles/Elo_Maluco.dir/src/tinyxml2.cpp.o: ../src/tinyxml2.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
 
 /usr/include/c++/11/bits/locale_facets.tcc:
+
+/usr/include/c++/11/bits/stl_deque.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 

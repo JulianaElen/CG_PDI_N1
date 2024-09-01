@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <string>
+#include <stack>
 
 #include <GL/glut.h>
 
@@ -14,6 +16,7 @@
 #ifndef __APPLICATION_HPP__
 #define __APPLICATION_HPP__
 
+using namespace tinyxml2;
 using namespace std;
 
 /////////////////////////////////////////////////////////////
@@ -29,6 +32,10 @@ public:
 	void MouseHandle(int button, int state, int x, int y);
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
+
+	string mapColor(const string& code); 
+	void processXML(const string& filename, stack<string>& colorStack);
+	void printColorStack(const std::stack<std::string>& colorStack);
 
 private:
 
