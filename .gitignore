@@ -5,4 +5,4 @@
 # Ignorar arquivos de configuração local
 .env
 build
-.txt
+build/CMakeCache.txt
