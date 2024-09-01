@@ -1,0 +1,6 @@
+# Ignorar arquivos de build
+/build/
+/dist/
+
+# Ignorar arquivos de configuração local
+.env
