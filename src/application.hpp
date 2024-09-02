@@ -18,8 +18,13 @@
 
 using namespace tinyxml2;
 using namespace std;
+using namespace glm;
 
 /////////////////////////////////////////////////////////////
+struct Color
+	{
+		float r, g, b;
+	};
 class Application
 {
 public:
@@ -33,9 +38,8 @@ public:
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
 
-	string mapColor(const string& code); 
-	void processXML(const string& filename, stack<string>& colorStack);
-	void printColorStack(const std::stack<std::string>& colorStack);
+	Color mapColor(const string& code);
+	void processXML(const string& filename);
 
 private:
 
@@ -48,11 +52,16 @@ private:
 	GLint view_h;
 
 	list<Objects*> list_;
+	vector<vector<vec3>> colorMatrix; // Matriz de cores
+
+	void printColorMatrix() const;
+
+    void loadColorsFromFile(const string& filename);
 
 private:
 
 	void Inicializa (void);
-	bool insert_object(void);
+	bool insert_object();
 	
 };
 

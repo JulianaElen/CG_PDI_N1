@@ -6,7 +6,7 @@
 #include "application.hpp"
 
 ///////////////////////////////////////////////////////////////////////
-// Application Class
+// Application Class (construtor)
 Application::Application(int argc, char** argv)
 {
 	
@@ -16,21 +16,20 @@ Application::Application(int argc, char** argv)
    	glutInitWindowPosition(100,100);
    	glutCreateWindow("ELO MALUCO");
 	Inicializa();
+
+    processXML("../data/EloMaluco_estadoAtual_teste01.xml");
+
     insert_object();
-
-    stack<string> colorStack;
-    processXML("../data/EloMaluco_estadoAtual_exemplo.xml", colorStack);
-    printColorStack(colorStack);
 }
-
 //---------------------------------------------------------------------
+//Destrutor 
 Application::~Application()
 {
 }
 //---------------------------------------------------------------------
 void Application::Inicializa (void)
 {   
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //cor da janela para pretoé
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f); //cor da janela 
     xf=50.0f;
     yf=50.0f;
     win=250.0f;
@@ -43,18 +42,26 @@ void Application::Inicializa (void)
 //}
 //---------------------------------------------------------------------
 
-//mapeanmento das cores de acordo com o codigo
-string Application::mapColor(const string& code) {
-    if (code == "vms" || code == "vmm" || code == "vmi" ) return "vm";
-    if (code == "vds" || code == "vdm" || code == "vdi" ) return "vd";
-    if (code == "ams" || code == "amm" || code == "ami" ) return "am";
-    if (code == "brs" || code == "brm" || code == "bri" ) return "br";
-    if (code == "vzo") return "vzo";
-    return "desconhecido";
+Color Application::mapColor(const string& code) {
+    if (code == "vms" || code == "vmi" || code == "vmm" ) return {1.0f, 0.0f, 0.0f}; // vrmelho
+    if (code == "vds" || code == "vdi" || code == "vdm" || code == "vrs" || code == "vri" || code == "vrm"  ) return {0.0f, 1.0f, 0.0f}; // Verde
+    if (code == "ams" || code == "ami" || code == "amm" ) return {1.0f, 1.0f, 0.0f}; // Amarelo
+    if (code == "brs" || code == "bri" || code == "brm" ) return {1.0f, 1.0f, 1.0f}; // branco
+    if (code == "vzo") return {0.7f, 0.7f, 0.7f}; // cinza
+    return {0.0f, 0.0f, 0.0f}; // preto
 }
-
-// processa o xml e coloca as cores em uma pilha
-void Application::processXML(const string& filename, stack<string>& colorStack) {
+void Application::printColorMatrix() const {
+    std::cout << "Color Matrix:" << std::endl;
+    for (size_t i = 0; i < colorMatrix.size(); ++i) {
+        std::cout << "Row " << i << ": ";
+        for (size_t j = 0; j < colorMatrix[i].size(); ++j) {
+            const glm::vec3& color = colorMatrix[i][j];
+            std::cout << "(" << color.r << ", " << color.g << ", " << color.b << ") ";
+        }
+        std::cout << std::endl;
+    }
+}
+void Application::processXML(const string& filename) {
     XMLDocument doc;
     if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
         cerr << "Erro ao carregar o arquivo XML." << endl;
@@ -73,28 +80,23 @@ void Application::processXML(const string& filename, stack<string>& colorStack) 
         return;
     }
 
+    colorMatrix.clear(); 
+
     for (XMLElement* row = estadoAtual->FirstChildElement("row"); row != nullptr; row = row->NextSiblingElement("row")) {
+        vector<vec3> colorRow;
         for (XMLElement* col = row->FirstChildElement("col"); col != nullptr; col = col->NextSiblingElement("col")) {
             const char* text = col->GetText();
             if (text) {
                 string code(text);
-                colorStack.push(mapColor(code));
+                Color color = mapColor(code);
+                colorRow.push_back(vec3(color.r, color.g, color.b)); // Convert Color to vec3
             }
         }
+        colorMatrix.push_back(colorRow);
     }
+    printColorMatrix();
 }
 
-//imprimindo a pilha para conferir se esta certo (apagar depois)
-void Application::printColorStack(const stack<string>& colorStack) {
-    stack<string> tempStack = colorStack;
-
-    cout << "Conteúdo da pilha:" << endl;
-
-    while (!tempStack.empty()) {
-        cout << tempStack.top() << endl;
-        tempStack.pop();
-    }
-}
 
 void Application::draw()
 {
@@ -225,9 +227,13 @@ void Application::update(int value, void (*func_ptr)(int))
 
 }
 //---------------------------------------------------------------------
-bool Application::insert_object(void) {
-    Cube* cube = new Cube();
+glm::vec3 colorToVec3(const Color& color) {
+    return glm::vec3(color.r, color.g, color.b);
+}
+bool Application::insert_object() {
+    // Passa a matriz de cores inteira para o cubo
+    Cube* cube = new Cube(colorMatrix);
     list_.push_back(cube);
+
     return true;
 }
-
