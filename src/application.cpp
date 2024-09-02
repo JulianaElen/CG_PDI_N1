@@ -11,9 +11,11 @@ Application::Application(int argc, char** argv)
 {
 	
 	glutInit(&argc,argv);
-     	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-     	glutInitWindowSize(500,500);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+
+    glutInitWindowSize(500,500);
    	glutInitWindowPosition(100,100);
+
    	glutCreateWindow("ELO MALUCO");
 	Inicializa();
 
@@ -21,11 +23,13 @@ Application::Application(int argc, char** argv)
 
     insert_object();
 }
+
 //---------------------------------------------------------------------
 //Destrutor 
 Application::~Application()
 {
 }
+
 //---------------------------------------------------------------------
 void Application::Inicializa (void)
 {   
@@ -35,13 +39,15 @@ void Application::Inicializa (void)
     win=250.0f;
     time = 0;
 }
+
 //---------------------------------------------------------------------
 //void Application::DisplayFunc()
 //{
 //	glutDisplayFunc(Application::Desenha);
 //}
-//---------------------------------------------------------------------
 
+//---------------------------------------------------------------------
+//faz o mapeamento das cores no xml para o formato rgb que precisamos
 Color Application::mapColor(const string& code) {
     if (code == "vms" || code == "vmi" || code == "vmm" ) return {1.0f, 0.0f, 0.0f}; // vrmelho
     if (code == "vds" || code == "vdi" || code == "vdm" || code == "vrs" || code == "vri" || code == "vrm"  ) return {0.0f, 1.0f, 0.0f}; // Verde
@@ -50,6 +56,9 @@ Color Application::mapColor(const string& code) {
     if (code == "vzo") return {0.7f, 0.7f, 0.7f}; // cinza
     return {0.0f, 0.0f, 0.0f}; // preto
 }
+
+//---------------------------------------------------------------------
+//imprimi a matriz das cores no console para conferir se está tudo correto
 void Application::printColorMatrix() const {
     std::cout << "Color Matrix:" << std::endl;
     for (size_t i = 0; i < colorMatrix.size(); ++i) {
@@ -61,27 +70,36 @@ void Application::printColorMatrix() const {
         std::cout << std::endl;
     }
 }
+
+//---------------------------------------------------------------------
+// Leitura do arquivo xml e processamento dos dados sobre as cores contidos nele. Esses dados sao  inseridoas na matriz de cores 
 void Application::processXML(const string& filename) {
-    XMLDocument doc;
+
+    XMLDocument doc; 
+
+    //verificação de carregamento do arquivo 
     if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
-        cerr << "Erro ao carregar o arquivo XML." << endl;
+        cerr << "Erro ao carregar o arquivo XML. Verifique o caminho." << endl;
         return;
     }
 
+    // Verifica se o xml contem o elemento raiz
     XMLElement* root = doc.RootElement();
     if (root == nullptr) {
-        cerr << "Elemento raiz não encontrado." << endl;
+        cerr << "O elemento raiz não foi encontrado." << endl;
         return;
     }
 
+    // Verifica se existem os elemntos dentro da raiz
     XMLElement* estadoAtual = root->FirstChildElement("EstadoAtual");
     if (estadoAtual == nullptr) {
-        cerr << "Elemento EstadoAtual não encontrado." << endl;
+        cerr << "Nenhum elemento encontrado." << endl;
         return;
     }
 
     colorMatrix.clear(); 
 
+    //percorre cada row e col's dentro dela. Armazena seus respctivos codigos (utilizando o mapeamento) dentro da nossa matriz de cores
     for (XMLElement* row = estadoAtual->FirstChildElement("row"); row != nullptr; row = row->NextSiblingElement("row")) {
         vector<vec3> colorRow;
         for (XMLElement* col = row->FirstChildElement("col"); col != nullptr; col = col->NextSiblingElement("col")) {
@@ -89,7 +107,7 @@ void Application::processXML(const string& filename) {
             if (text) {
                 string code(text);
                 Color color = mapColor(code);
-                colorRow.push_back(vec3(color.r, color.g, color.b)); // Convert Color to vec3
+                colorRow.push_back(vec3(color.r, color.g, color.b)); // Conversão das cores para vec3
             }
         }
         colorMatrix.push_back(colorRow);
@@ -97,7 +115,7 @@ void Application::processXML(const string& filename) {
     printColorMatrix();
 }
 
-
+//---------------------------------------------------------------------
 void Application::draw()
 {
     glEnable(GL_DEPTH_TEST); // arruma a profundidade
@@ -105,7 +123,7 @@ void Application::draw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa a janela e o Depth Buffer
     glLoadIdentity();
 
-    // Desenha os eixos
+    // Desenha os eixos x, y e z
     glLineWidth(2.0f);
     glBegin(GL_LINES);
 
@@ -134,7 +152,6 @@ void Application::draw()
     glutSwapBuffers();
 }
 
-
 //---------------------------------------------------------------------
 void Application::resize(GLsizei w, GLsizei h)
 { 
@@ -146,10 +163,8 @@ void Application::resize(GLsizei w, GLsizei h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     
-    // Aumente a distância da câmera para ter uma visão mais ampla
-    gluPerspective(60, (GLdouble)view_w/view_h, 1, 500); // Ajuste o "far plane" se necessário
-
-    // Ajuste a posição da câmera para garantir que ela esteja olhando para os cubos
+    // definição da pespectiva da câmera
+    gluPerspective(60, (GLdouble)view_w/view_h, 1, 500);
     gluLookAt(100.0, 100.0, 100.0,  // Posição da câmera
           0.0, 0.0, 0.0,    // Ponto para onde a câmera olha
           0.0, 1.0, 0.0);   // Vetor "up"
@@ -157,7 +172,6 @@ void Application::resize(GLsizei w, GLsizei h)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
-
 
 //---------------------------------------------------------------------
 void Application::KeyboardHandle(unsigned char key, int x, int y)
@@ -186,7 +200,7 @@ void Application::KeyboardHandle(unsigned char key, int x, int y)
     }
     
 }
-        
+
 //---------------------------------------------------------------------
 void Application::MouseHandle(int button, int state, int x, int y)
 {
@@ -199,7 +213,6 @@ void Application::MouseHandle(int button, int state, int x, int y)
          }
     
 }
-
 
 //---------------------------------------------------------------------
 void Application::SpecialKeyHandle(int key, int x, int y)
@@ -219,6 +232,7 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     }
     
 }
+
 //---------------------------------------------------------------------
 void Application::update(int value, void (*func_ptr)(int))
 {	
@@ -226,14 +240,16 @@ void Application::update(int value, void (*func_ptr)(int))
 	glutTimerFunc(30,func_ptr,time);
 
 }
+
 //---------------------------------------------------------------------
-glm::vec3 colorToVec3(const Color& color) {
+//Conversão de cor, de acordo com o modelo 
+vec3 colorToVec3(const Color& color) {
     return glm::vec3(color.r, color.g, color.b);
 }
+
+//---------------------------------------------------------------------
 bool Application::insert_object() {
-    // Passa a matriz de cores inteira para o cubo
     Cube* cube = new Cube(colorMatrix);
     list_.push_back(cube);
-
     return true;
 }
