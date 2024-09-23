@@ -22,6 +22,7 @@ Application::Application(int argc, char** argv)
     processXML("../data/EloMaluco_estadoAtual_teste01.xml");
 
     insert_object();
+    
 }
 
 //---------------------------------------------------------------------
@@ -123,25 +124,31 @@ void Application::draw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa a janela e o Depth Buffer
     glLoadIdentity();
 
+    glTranslatef(7.5f, 0.0f, 7.5f);
+
+    glRotatef(globalRotation, 0.0f, 1.0f, 0.0f);
+
+    glTranslatef(-7.5f, 0.0f, -7.5f);
+
     // Desenha os eixos x, y e z
-    glLineWidth(2.0f);
-    glBegin(GL_LINES);
+    //glLineWidth(2.0f);
+    //glBegin(GL_LINES);
 
-    glColor3f(1.0f, 0.0f, 0.0f); //vermelho
-    glVertex3f(-100.0f, 0.0f, 0.0f);
-    glVertex3f(100.0f, 0.0f, 0.0f);
+    //glColor3f(1.0f, 0.0f, 0.0f); //vermelho
+    //glVertex3f(-100.0f, 0.0f, 0.0f);
+    //glVertex3f(100.0f, 0.0f, 0.0f);
 
-    glColor3f(0.0f, 1.0f, 0.0f); //verde
-    glVertex3f(0.0f, -100.0f, 0.0f);
-    glVertex3f(0.0f, 100.0f, 0.0f);
+    //glColor3f(0.0f, 1.0f, 0.0f); //verde
+    //glVertex3f(0.0f, -100.0f, 0.0f);
+    //glVertex3f(0.0f, 100.0f, 0.0f);
 
-    glColor3f(0.0f, 0.0f, 1.0f); //azual
-    glVertex3f(0.0f, 0.0f, -100.0f);
-    glVertex3f(0.0f, 0.0f, 100.0f);
+    //glColor3f(0.0f, 0.0f, 1.0f); //azual
+    //glVertex3f(0.0f, 0.0f, -100.0f);
+    //glVertex3f(0.0f, 0.0f, 100.0f);
 
-    glEnd();
+    //glEnd();
 
-    glColor3f(1.0f, 1.0f, 1.0f);
+    //glColor3f(1.0f, 1.0f, 1.0f);
 
     // Desenha os cubos
     for (auto obj : list_) {
@@ -165,8 +172,8 @@ void Application::resize(GLsizei w, GLsizei h)
     
     // definição da pespectiva da câmera
     gluPerspective(60, (GLdouble)view_w/view_h, 1, 500);
-    gluLookAt(100.0, 100.0, 100.0,  // Posição da câmera
-          0.0, 0.0, 0.0,    // Ponto para onde a câmera olha
+    gluLookAt(0.0, 0.0, 150.0,  // Posição da câmera
+          7.5f, 30.0f, 7.5f,    // Ponto para onde a câmera olha
           0.0, 1.0, 0.0);   // Vetor "up"
 
     glMatrixMode(GL_MODELVIEW);
@@ -217,20 +224,17 @@ void Application::MouseHandle(int button, int state, int x, int y)
 //---------------------------------------------------------------------
 void Application::SpecialKeyHandle(int key, int x, int y)
 {
-    if(key == GLUT_KEY_UP) {
-           //win -= 20;
-           //glMatrixMode(GL_PROJECTION);
-           //glLoadIdentity();
-           //gluOrtho2D (-win, win, -win, win);
-	   insert_object();
+    switch (key)
+    {
+    case GLUT_KEY_LEFT:
+        globalRotation -= 5.0f;  // Rotaciona 5 graus no sentido anti-horário
+        break;
+    case GLUT_KEY_RIGHT:
+        globalRotation += 5.0f;  // Rotaciona 5 graus no sentido horário
+        break;
     }
-    if(key == GLUT_KEY_DOWN) {
-           //win += 20;
-           //glMatrixMode(GL_PROJECTION);
-           //glLoadIdentity();
-           //gluOrtho2D (-win, win, -win, win);
-    }
-    
+
+    glutPostRedisplay();  // Re-desenhar a cena
 }
 
 //---------------------------------------------------------------------

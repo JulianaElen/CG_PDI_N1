@@ -58,6 +58,9 @@ private:
 
     void loadColorsFromFile(const string& filename);
 
+
+	float globalRotation;
+
 private:
 
 	void Inicializa (void);
