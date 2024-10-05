@@ -73,10 +73,24 @@ void Cube::draw()
         glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z);
         glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
 
-        // Face traseira
+        // Face lateral 1
         glColor3f(colorsMatrix[i][1].r, colorsMatrix[i][1].g, colorsMatrix[i][1].b); 
+        glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);
+        glVertex3f(points_base[1].x, points_base[1].y, points_base[1].z);
+        glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z);
+        glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z);
+
+        // Face traseira
+        glColor3f(colorsMatrix[i][2].r, colorsMatrix[i][2].g, colorsMatrix[i][2].b); 
         glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z);
         glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z);
+        glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z);
+        glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z);
+
+        // Face lateral 2
+        glColor3f(colorsMatrix[i][3].r, colorsMatrix[i][3].g, colorsMatrix[i][3].b); 
+        glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
+        glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z);
         glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z);
         glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z);
 
@@ -93,20 +107,6 @@ void Cube::draw()
         glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z);
         glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z);
         glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z);
-
-        // Face lateral 1
-        glColor3f(colorsMatrix[i][2].r, colorsMatrix[i][2].g, colorsMatrix[i][2].b); 
-        glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);
-        glVertex3f(points_base[1].x, points_base[1].y, points_base[1].z);
-        glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z);
-        glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z);
-
-        // Face lateral 2
-        glColor3f(colorsMatrix[i][3].r, colorsMatrix[i][3].g, colorsMatrix[i][3].b); 
-        glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
-        glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z);
-        glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z);
-        glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z);
 
         glEnd();  
 

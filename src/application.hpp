@@ -6,7 +6,6 @@
 #include <list>
 #include <string>
 #include <stack>
-
 #include <GL/glut.h>
 
 #include "tinyxml2.h"
@@ -63,6 +62,19 @@ private:
 	pair<int, int> findEmptyHouse();
 
 	void moveEmptyHouse(int direction);
+
+	int selectedCubeIndex = -1;
+
+	void selectCube(int index);
+
+	void rotateRight(); 
+	void rotateLeft(); 
+
+	void drawText(float x, float y, const char *message);
+
+	void drawFixedText();
+
+	void updateCubeColors();
 
 private:
 
