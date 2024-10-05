@@ -58,8 +58,11 @@ private:
 
     void loadColorsFromFile(const string& filename);
 
-
 	float globalRotation;
+
+	pair<int, int> findEmptyHouse();
+
+	void moveEmptyHouse(int direction);
 
 private:
 

@@ -56,10 +56,14 @@ void Cube::draw()
     // Iterar sobre a matriz de cores para desenhar os cubos, pois a matriz vai ter sempre as 4 linhas
     for (int i = 0; i < colorsMatrix.size(); ++i)
     {
+    
+        float positionY = (colorsMatrix.size() - 1 - i) * 15.0f; // Inverte a ordem das cores ao desenhar o cubo
+
         glPushMatrix(); 
 
-        glTranslatef(0.0f, i * 15.0f, 0.0f); // desloca o cubo ao longo do eixo Y em 15 unidades
+        glTranslatef(0.0f, positionY, 0.0f); // desloca o cubo ao longo do eixo Y em 15 unidades
 
+        // O restante do código permanece o mesmo
         glBegin(GL_QUADS);
 
         // Face frontal
@@ -152,6 +156,11 @@ void Cube::draw()
 
         glPopMatrix(); // restaura a matriz de transformação
     }
+}
+
+// função para atualizar a matrix de cores passada
+void Cube::setColors(const vector<vector<vec3>>& newColorsMatrix) {
+    colorsMatrix = newColorsMatrix;
 }
 
 void Cube::colision(int x, int y) {}

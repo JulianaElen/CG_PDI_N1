@@ -54,7 +54,7 @@ Color Application::mapColor(const string& code) {
     if (code == "vds" || code == "vdi" || code == "vdm" || code == "vrs" || code == "vri" || code == "vrm"  ) return {0.0f, 1.0f, 0.0f}; // Verde
     if (code == "ams" || code == "ami" || code == "amm" ) return {1.0f, 1.0f, 0.0f}; // Amarelo
     if (code == "brs" || code == "bri" || code == "brm" ) return {1.0f, 1.0f, 1.0f}; // branco
-    if (code == "vzo") return {0.7f, 0.7f, 0.7f}; // cinza
+    if (code == "vzo") return {0.5f, 0.5f, 0.5f}; // cinza
     return {0.0f, 0.0f, 0.0f}; // preto
 }
 
@@ -232,7 +232,13 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     case GLUT_KEY_RIGHT:
         globalRotation += 5.0f;  // Rotaciona 5 graus no sentido horário
         break;
-    }
+    case GLUT_KEY_UP: // Mover para cima
+        moveEmptyHouse(-1);
+        break;
+    case GLUT_KEY_DOWN: // Mover para baixo
+        moveEmptyHouse(1);
+        break;
+    } 
 
     glutPostRedisplay();  // Re-desenhar a cena
 }
@@ -256,4 +262,50 @@ bool Application::insert_object() {
     Cube* cube = new Cube(colorMatrix);
     list_.push_back(cube);
     return true;
+}
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+pair<int, int> Application::findEmptyHouse() {
+    for (size_t i = 0; i < colorMatrix.size(); ++i) {
+        for (size_t j = 0; j < colorMatrix[i].size(); ++j) {
+            if (colorMatrix[i][j] == vec3(0.5f, 0.5f, 0.5f)) { // Cinza
+                return {static_cast<int>(i), static_cast<int>(j)};
+            }
+        }
+    }
+    return {-1, -1}; // Retorna -1, -1 se não encontrar
+}
+void Application::moveEmptyHouse(int direction) {
+    // Captura a posição da casa vazia
+    pair<int, int> emptyHousePosition = findEmptyHouse();
+    int emptyRow = emptyHousePosition.first;
+    int emptyCol = emptyHousePosition.second;
+
+    // Verifica se a casa vazia foi encontrada
+    if (emptyRow == -1) return; 
+
+    // Calcula a nova linha
+    int newRow = emptyRow + direction;
+
+    // Verifica se o novo índice está dentro da matriz
+    if (newRow >= 0 && newRow < colorMatrix.size()) {
+        // Troca as cores
+        swap(colorMatrix[emptyRow][emptyCol], colorMatrix[newRow][emptyCol]);
+        
+        printColorMatrix();
+
+        // Atualiza a matriz de cores de todos os cubos
+        for (Objects* obj : list_) {
+            Cube* cube = dynamic_cast<Cube*>(obj); // Tentativa de conversão
+            if (cube) {
+                cube->setColors(colorMatrix); // Atualiza se for um Cube
+            }
+        }
+
+        glutPostRedisplay();
+    }
 }

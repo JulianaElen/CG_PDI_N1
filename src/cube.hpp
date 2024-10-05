@@ -21,12 +21,16 @@ public:
     void update(int value);
     void colision(int x, int y);
 
+     void setColors(const vector<vector<vec3>>& newColorsMatrix);
+
 private:
     int x, y, z;
     float theta;
     vec3 points_base[8];
     vec3 points[8];
     vector<vector<vec3>> colorsMatrix;  // Matriz de cores
+
+   
 
 private:
     void transform(void);
