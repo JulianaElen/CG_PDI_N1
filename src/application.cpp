@@ -141,7 +141,7 @@ void Application::draw()
 
     glTranslatef(7.5f, 0.0f, 7.5f);
 
-    glRotatef(globalRotation, 0.0f, 1.0f, 0.0f);
+    glRotatef(globalRotation, 0.0f, 1.0f, 0.0f); //Rotação global
 
     glTranslatef(-7.5f, 0.0f, -7.5f);
 
@@ -200,12 +200,12 @@ void Application::drawFixedText()
 
     // Desenhando umas instruções aleatorias que vão ser colocadas no menu depois
     drawText(-60.0f, -15.f, "Instrucoes para jogar: ");
-    drawText(-60.0f, -22.f, "Setas para esquera e direita movem o Elo Maluco;");
+    drawText(-60.0f, -22.f, "CRTL + SETAS rotacionam o Elo Maluco;");
     drawText(-60.0f, -27.f, "Setas para cima e para baixo movem a casa vazia;");
-    drawText(-60.0f, -32.f, "F1, F2, F3 e F4 selecionam o cubo;");
-    drawText(-60.0f, -37.f, "Botoes do Mouse rotacionam o cubo;");
+    drawText(-60.0f, -32.f, "F1 e F2 selecionam o cubo;");
+    drawText(-60.0f, -37.f, "Setas rotacionam o cubo selecionado;");
 
-    // Vericiando qual cubo foi selecionado, para mostrar uma seta informativa 
+    // Vericiando qual cubo foi selecionado, para mostrar uma seta informativa
     if (selectedCubeIndex != -1)
     {
         float textPosX = -15.0f; // Posição no eixo x da seta
@@ -240,7 +240,7 @@ void Application::drawFixedText()
     glPopMatrix();
 }
 //---------------------------------------------------------------------
-// Função auxiliar para desenhar texto na tela 
+// Função auxiliar para desenhar texto na tela
 void Application::drawText(float x, float y, const char *message)
 {
     glRasterPos2f(x, y); // Define a posição do texto no espaço 2D
@@ -301,27 +301,42 @@ void Application::KeyboardHandle(unsigned char key, int x, int y)
 // Função que gerencia os clicks do mouse
 void Application::MouseHandle(int button, int state, int x, int y)
 {
-    // Se o botão esquerdo do mouse for prescionado ele chama a função de rotação ṕara a esquerda
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) 
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
-        rotateLeft();
+        
     }
-    // Se o botão direito do mouse for prescionado ele chama a função de rotação ṕara a direita
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
     {
-        rotateRight();
+        
     }
 }
 //---------------------------------------------------------------------
 void Application::SpecialKeyHandle(int key, int x, int y)
 {
+
+    // Verifica se Ctrl está pressionado
+    bool ctrlPressed = (glutGetModifiers() & GLUT_ACTIVE_CTRL);
+
     switch (key)
     {
     case GLUT_KEY_LEFT:
-        globalRotation -= 5.0f; // Rotaciona 5 graus no sentido anti-horário
+        if (ctrlPressed) {
+            // Ação quando Ctrl + Seta Esquerda é pressionado
+            globalRotation -= 5.0f; // Rotaciona 5 graus no sentido anti-horário
+        } else {
+            // Ação quando apenas Seta Esquerda é pressionada
+            rotateLeft();
+        }
         break;
+
     case GLUT_KEY_RIGHT:
-        globalRotation += 5.0f; // Rotaciona 5 graus no sentido horário
+        if (ctrlPressed) {
+            // Ação quando Ctrl + Seta Direita é pressionado
+            globalRotation += 5.0f; // Rotaciona 5 graus no sentido horário
+        } else {
+            // Ação quando apenas Seta Direita é pressionada
+            rotateRight();
+        }
         break;
     case GLUT_KEY_UP: // Mover para cima a casa vazia
         moveEmptyHouse(-1);
@@ -333,12 +348,6 @@ void Application::SpecialKeyHandle(int key, int x, int y)
         selectCube(0);
         break;
     case GLUT_KEY_F2: // Seleciona o cubo 2
-        selectCube(1);
-        break;
-    case GLUT_KEY_F3: // Seleciona o cubo 2
-        selectCube(2);
-        break;
-    case GLUT_KEY_F4: // Seleciona o cubo 2
         selectCube(3);
         break;
     }
@@ -372,12 +381,12 @@ bool Application::insert_object()
 // Encontra a casa vazia e retorna um par de inteiros (linha e coluna dessa casa)
 pair<int, int> Application::findEmptyHouse()
 {
-    for (size_t i = 0; i < colorMatrix.size(); ++i) //Percorre as linhas
+    for (size_t i = 0; i < colorMatrix.size(); ++i) // Percorre as linhas
     {
         for (size_t j = 0; j < colorMatrix[i].size(); ++j) // Percorre as colunas
         {
             if (colorMatrix[i][j] == vec3(0.5f, 0.5f, 0.5f)) // Se a casa for vazia (cinza)
-            { 
+            {
                 return {static_cast<int>(i), static_cast<int>(j)};
             }
         }
@@ -394,11 +403,11 @@ void Application::moveEmptyHouse(int direction)
 
     // Verifica se a casa vazia foi encontrada
     if (emptyRow == -1)
-    //Adicionar um possivel tratamento de erro
+        // Adicionar um possivel tratamento de erro
         return;
 
     // Calcula a nova linha, para onde o vazio deve ser movido
-    int newRow = emptyRow + direction; 
+    int newRow = emptyRow + direction;
 
     // Verifica se o novo índice está dentro da matriz
     if (newRow >= 0 && newRow < colorMatrix.size())
@@ -425,15 +434,15 @@ void Application::rotateLeft()
 {
     if (selectedCubeIndex != -1) // Verifica se o cubo foi selecionado
     {
-        auto &matrix = colorMatrix[selectedCubeIndex]; // Paassa a matriz/linha do cubo selecionado por referencia
-        vec3 aux = matrix[0]; // Guarda a primeira cor (pois ela vai virar a ultima devido ao deslocamento)
+        auto &matrix = colorMatrix[selectedCubeIndex]; // Passa a matriz/linha do cubo selecionado por referencia
+        vec3 aux = matrix[0];                          // Guarda a primeira cor (pois ela vai virar a ultima devido ao deslocamento)
 
         for (int i = 0; i < matrix.size() - 1; ++i)
         {
             matrix[i] = matrix[i + 1]; // Desloca para a esquerda todos as cores
         }
 
-        matrix.back() = aux;  // Coloca a primeira cor no final
+        matrix.back() = aux;                       // Coloca a primeira cor no final
         cout << "Cubo girado à esquerda." << endl; // Mensagem para conferir no terminal
 
         printColorMatrix();
@@ -451,14 +460,14 @@ void Application::rotateRight()
     if (selectedCubeIndex != -1)
     {
         auto &matrix = colorMatrix[selectedCubeIndex]; // Paassa a matriz/linha do cubo selecionado por referencia
-        vec3 aux = matrix.back(); // Guarda a última cor, pois ela vai virar a primeira
+        vec3 aux = matrix.back();                      // Guarda a última cor, pois ela vai virar a primeira
 
         for (int i = matrix.size() - 1; i > 0; --i)
         {
             matrix[i] = matrix[i - 1]; // Desloca para a direita
         }
 
-        matrix[0] = aux; // Coloca a última cor no início
+        matrix[0] = aux;                          // Coloca a última cor no início
         cout << "Cubo girado à direita." << endl; // Mensagem no terminal
 
         printColorMatrix();
@@ -475,7 +484,7 @@ void Application::updateCubeColors()
 {
     for (Objects *obj : list_)
     {
-        Cube *cube = dynamic_cast<Cube *>(obj); // Tentativa de conversão
+        Cube *cube = dynamic_cast<Cube *>(obj); // conversão
         if (cube)
         {
             cube->setColors(colorMatrix); // Atualiza se for um Cube
