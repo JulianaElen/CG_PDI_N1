@@ -47,23 +47,6 @@ void Application::Inicializa(void)
 //}
 
 //---------------------------------------------------------------------
-// faz o mapeamento das cores no xml para o formato rgb que precisamos
-Color Application::mapColor(const string &code)
-{
-    if (code == "vms" || code == "vmi" || code == "vmm")
-        return {1.0f, 0.0f, 0.0f}; // vrmelho
-    if (code == "vds" || code == "vdi" || code == "vdm" || code == "vrs" || code == "vri" || code == "vrm")
-        return {0.0f, 1.0f, 0.0f}; // Verde
-    if (code == "ams" || code == "ami" || code == "amm")
-        return {1.0f, 1.0f, 0.0f}; // Amarelo
-    if (code == "brs" || code == "bri" || code == "brm")
-        return {1.0f, 1.0f, 1.0f}; // branco
-    if (code == "vzo")
-        return {0.5f, 0.5f, 0.5f}; // cinza
-    return {0.0f, 0.0f, 0.0f};     // preto
-}
-
-//---------------------------------------------------------------------
 // imprimi a matriz das cores no console para conferir se está tudo correto
 void Application::printColorMatrix() const
 {
@@ -73,8 +56,7 @@ void Application::printColorMatrix() const
         std::cout << "Row " << i << ": ";
         for (size_t j = 0; j < colorMatrix[i].size(); ++j)
         {
-            const glm::vec3 &color = colorMatrix[i][j];
-            std::cout << "(" << color.r << ", " << color.g << ", " << color.b << ") ";
+            std::cout << colorMatrix[i][j] << " "; // Imprime a letra
         }
         std::cout << std::endl;
     }
@@ -115,15 +97,14 @@ void Application::processXML(const string &filename)
     // percorre cada row e col's dentro dela. Armazena seus respctivos codigos (utilizando o mapeamento) dentro da nossa matriz de cores
     for (XMLElement *row = estadoAtual->FirstChildElement("row"); row != nullptr; row = row->NextSiblingElement("row"))
     {
-        vector<vec3> colorRow;
+        vector<string> colorRow;
         for (XMLElement *col = row->FirstChildElement("col"); col != nullptr; col = col->NextSiblingElement("col"))
         {
             const char *text = col->GetText();
             if (text)
             {
                 string code(text);
-                Color color = mapColor(code);
-                colorRow.push_back(vec3(color.r, color.g, color.b)); // Conversão das cores para vec3
+                colorRow.push_back(code); // Adiciona o código direto
             }
         }
         colorMatrix.push_back(colorRow);
@@ -385,7 +366,7 @@ pair<int, int> Application::findEmptyHouse()
     {
         for (size_t j = 0; j < colorMatrix[i].size(); ++j) // Percorre as colunas
         {
-            if (colorMatrix[i][j] == vec3(0.5f, 0.5f, 0.5f)) // Se a casa for vazia (cinza)
+            if (colorMatrix[i][j] == "vzo") // Se a casa for vazia (cinza)
             {
                 return {static_cast<int>(i), static_cast<int>(j)};
             }
@@ -435,7 +416,7 @@ void Application::rotateLeft()
     if (selectedCubeIndex != -1) // Verifica se o cubo foi selecionado
     {
         auto &matrix = colorMatrix[selectedCubeIndex]; // Passa a matriz/linha do cubo selecionado por referencia
-        vec3 aux = matrix[0];                          // Guarda a primeira cor (pois ela vai virar a ultima devido ao deslocamento)
+        string aux = matrix[0];                          // Guarda a primeira cor (pois ela vai virar a ultima devido ao deslocamento)
 
         for (int i = 0; i < matrix.size() - 1; ++i)
         {
@@ -460,7 +441,7 @@ void Application::rotateRight()
     if (selectedCubeIndex != -1)
     {
         auto &matrix = colorMatrix[selectedCubeIndex]; // Paassa a matriz/linha do cubo selecionado por referencia
-        vec3 aux = matrix.back();                      // Guarda a última cor, pois ela vai virar a primeira
+        string aux = matrix.back();                      // Guarda a última cor, pois ela vai virar a primeira
 
         for (int i = matrix.size() - 1; i > 0; --i)
         {

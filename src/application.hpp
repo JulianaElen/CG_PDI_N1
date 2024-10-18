@@ -20,10 +20,6 @@ using namespace std;
 using namespace glm;
 
 /////////////////////////////////////////////////////////////
-struct Color
-	{
-		float r, g, b;
-	};
 class Application
 {
 public:
@@ -37,7 +33,6 @@ public:
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
 
-	Color mapColor(const string& code);
 	void processXML(const string& filename);
 
 private:
@@ -51,7 +46,7 @@ private:
 	GLint view_h;
 
 	list<Objects*> list_;
-	vector<vector<vec3>> colorMatrix; // Matriz de cores
+	vector<vector<string>> colorMatrix; // Matriz de cores
 
 	void printColorMatrix() const;
 

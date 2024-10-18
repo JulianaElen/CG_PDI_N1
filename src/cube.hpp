@@ -10,25 +10,30 @@
 
 using namespace std;
 using namespace glm;
-
+struct Color
+	{
+		float r, g, b;
+	};
 class Cube: public Objects
 {
 public:
-    Cube(const vector<vector<vec3>>& colorsMatrix);
+    Cube(const vector<vector<string>>& colorsMatrix);
     ~Cube();
 
     void draw();
+    void drawCube(const vector<Color>& colors);
     void update(int value);
     void colision(int x, int y);
 
-     void setColors(const vector<vector<vec3>>& newColorsMatrix);
+     void setColors(const vector<vector<string>>& newColorsMatrix);
+     Color mapColor(const string& code);
 
 private:
     int x, y, z;
     float theta;
     vec3 points_base[8];
     vec3 points[8];
-    vector<vector<vec3>> colorsMatrix;  // Matriz de cores
+    vector<vector<string>> colorsMatrix;  // Matriz de cores
 
    
 
