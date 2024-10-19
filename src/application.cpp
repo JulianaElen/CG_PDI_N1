@@ -33,7 +33,7 @@ Application::~Application()
 //---------------------------------------------------------------------
 void Application::Inicializa(void)
 {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // cor da janela
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // cor da janela
     xf = 50.0f;
     yf = 50.0f;
     win = 250.0f;
@@ -177,14 +177,14 @@ void Application::drawFixedText()
     glLoadIdentity();
 
     // Define a cor do texto
-    glColor3f(1.0f, 1.0f, 1.0f); // Cor branca para o texto
+    glColor3f(0.80f, 0.80f, 0.80f); // Cor branca para o texto
 
     // Desenhando umas instruções aleatorias que vão ser colocadas no menu depois
     drawText(-60.0f, -15.f, "Instrucoes para jogar: ");
-    drawText(-60.0f, -22.f, "CRTL + SETAS rotacionam o Elo Maluco;");
+    drawText(-60.0f, -22.f, "SETAS rotacionam o Elo Maluco;");
     drawText(-60.0f, -27.f, "Setas para cima e para baixo movem a casa vazia;");
     drawText(-60.0f, -32.f, "F1 e F2 selecionam o cubo;");
-    drawText(-60.0f, -37.f, "Setas rotacionam o cubo selecionado;");
+    drawText(-60.0f, -37.f, "CRTL + SETAS rotacionam o cubo selecionado;");
 
     // Vericiando qual cubo foi selecionado, para mostrar uma seta informativa
     if (selectedCubeIndex != -1)
@@ -303,20 +303,21 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     case GLUT_KEY_LEFT:
         if (ctrlPressed) {
             // Ação quando Ctrl + Seta Esquerda é pressionado
-            globalRotation -= 5.0f; // Rotaciona 5 graus no sentido anti-horário
+           rotateLeft();
         } else {
             // Ação quando apenas Seta Esquerda é pressionada
-            rotateLeft();
+            
+             globalRotation -= 5.0f; // Rotaciona 5 graus no sentido anti-horário
         }
         break;
 
     case GLUT_KEY_RIGHT:
         if (ctrlPressed) {
             // Ação quando Ctrl + Seta Direita é pressionado
-            globalRotation += 5.0f; // Rotaciona 5 graus no sentido horário
+            rotateRight();
         } else {
             // Ação quando apenas Seta Direita é pressionada
-            rotateRight();
+            globalRotation += 5.0f; // Rotaciona 5 graus no sentido horário
         }
         break;
     case GLUT_KEY_UP: // Mover para cima a casa vazia

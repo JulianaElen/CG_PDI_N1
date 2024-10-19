@@ -99,13 +99,13 @@ glBegin(GL_QUADS);
 
     // Face frontal
     glColor3f(colors[0].r, colors[0].g, colors[0].b); 
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z); // Canto inferior esquerdo
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z); // Canto superior esquerdo
     glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z); // Canto superior direito
+    glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z); // Canto inferior esquerdo
     glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z); // Canto superior esquerdo
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z); // Canto superior direito
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(points_base[1].x, points_base[1].y, points_base[1].z); // Canto inferior direito
     glEnd();
 
@@ -172,7 +172,8 @@ glBegin(GL_QUADS);
     glEnd();
 
     // Desenha as 12 bordas pretas no cubo, para boa aparencia
-    glColor3f(0.0f, 0.0f, 0.0f);
+    glColor3f(0.3f, 0.3f, 0.3f);
+    glLineWidth(3.0f); 
     glBegin(GL_LINES);
 
     glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);
