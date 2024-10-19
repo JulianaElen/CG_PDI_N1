@@ -71,6 +71,9 @@ private:
 
 	void updateCubeColors();
 
+	bool isSolved();
+	 bool gameSolved = false; 
+
 private:
 	void Inicializa(void);
 	bool insert_object();

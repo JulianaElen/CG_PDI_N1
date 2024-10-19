@@ -147,6 +147,10 @@ void Application::draw()
 // Função para desenhar o texto fixo na tela (Não vai girar junto com o Elo)
 void Application::drawFixedText()
 {
+
+    if (gameSolved) {
+        drawText(-20.0f, -15.f, "O jogo esta resolvido!"); // Adicione a mensagem na tela
+    }
     // Salva as configurações de projeção e visão
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -162,7 +166,7 @@ void Application::drawFixedText()
     glLoadIdentity();
 
     // Define a cor do texto
-    glColor3f(0.80f, 0.80f, 0.80f); // Cor branca para o texto
+    glColor3f(1.0f, 1.0f, 1.0f); // Cor branca para o texto
 
     // Desenhando umas instruções aleatorias que vão ser colocadas no menu depois
   //  drawText(-60.0f, -15.f, "Instrucoes para jogar: ");
@@ -391,6 +395,8 @@ void Application::moveEmptyHouse(int direction)
         // Atualiza a matriz de cores de geração dos cubos
         updateCubeColors();
 
+        isSolved();
+
         glutPostRedisplay();
     }
 }
@@ -421,6 +427,8 @@ void Application::rotateLeft()
         // Atualiza a matriz de cores de todos os cubos
         updateCubeColors();
 
+        isSolved();
+
         glutPostRedisplay();
     }
 }
@@ -445,6 +453,8 @@ void Application::rotateRight()
 
         // Atualiza a matriz de cores de todos os cubos
         updateCubeColors();
+
+        isSolved();
 
         glutPostRedisplay();
     }
@@ -493,3 +503,53 @@ void Application::setLight()
     GLfloat lmodel_ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
 }
+
+bool Application::isSolved() {
+
+    // Verifica se cada coluna tem apenas uma cor, ignorando "vzo"
+    for (size_t col = 0; col < colorMatrix[0].size(); ++col) {
+        string firstColor;
+        bool foundColor = false;
+
+        // Verifica cada linha da coluna
+        for (size_t row = 0; row < colorMatrix.size(); ++row) {
+            string currentColor = colorMatrix[row][col];
+
+            // Ignora "vzo"
+            if (currentColor == "vzo") continue;
+
+            // Se ainda não encontrou uma cor, define a primeira cor
+            if (!foundColor) {
+                firstColor = currentColor.substr(0, 2);
+                foundColor = true;
+            } else {
+                string colorToCheck = currentColor.substr(0, 2);
+                if (colorToCheck != firstColor) {
+                    gameSolved = false; // O jogo não está resolvido
+                    return false;
+                }
+            }
+        }
+    }
+
+    // Verifica as letras da terceira posição para cada linha
+    if (colorMatrix[0][0][2] != 's') {
+        return false;
+    }
+
+    for (size_t row = 1; row <= 2; ++row) {
+        if (colorMatrix[row][0][2] != 'm') {
+            return false;
+        }
+    }
+
+    if (colorMatrix[3][0][2] != 'i') {
+        return false;
+    }
+
+    gameSolved = true; // O jogo está resolvido
+    cout << "Jogo resolvido!" << endl;
+    return true;
+}
+
+
