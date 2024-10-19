@@ -151,6 +151,10 @@ void Application::drawFixedText()
     if (gameSolved) {
         drawText(-20.0f, -15.f, "O jogo esta resolvido!"); // Adicione a mensagem na tela
     }
+
+    if (gameSave) {
+        drawText(-20.0f, -25.f, "O jogo esta salvo!"); // Adicione a mensagem na tela
+    }
     // Salva as configurações de projeção e visão
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -325,6 +329,9 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     case GLUT_KEY_F2: // Seleciona o cubo 2
         selectCube(3);
         break;
+    case GLUT_KEY_INSERT: // Tecla para salvar o estado do jogo
+            saveGameStateToXML(); // Salva no arquivo 'estado_jogo.xml'
+            break;
     }
 
     glutPostRedisplay(); // Re-desenhar a cena
@@ -397,6 +404,8 @@ void Application::moveEmptyHouse(int direction)
 
         isSolved();
 
+        gameSave = false;
+
         glutPostRedisplay();
     }
 }
@@ -429,6 +438,8 @@ void Application::rotateLeft()
 
         isSolved();
 
+        gameSave = false;
+
         glutPostRedisplay();
     }
 }
@@ -455,6 +466,8 @@ void Application::rotateRight()
         updateCubeColors();
 
         isSolved();
+
+        gameSave = false;
 
         glutPostRedisplay();
     }
@@ -553,3 +566,48 @@ bool Application::isSolved() {
 }
 
 
+void Application::saveGameStateToXML() {
+    // Cria o diretório "data" se não existir
+    std::system("mkdir -p data");
+
+    // Obtém a data e hora atuais
+    std::time_t now = std::time(nullptr);
+    std::tm* now_tm = std::localtime(&now);
+
+    // Formata a data e a hora como string
+    std::ostringstream oss;
+    oss << "../data/estado_jogo_";
+    oss << (now_tm->tm_year + 1900) << "-"  // Ano
+        << std::setw(2) << std::setfill('0') << (now_tm->tm_mon + 1) << "-"  // Mês
+        << std::setw(2) << std::setfill('0') << now_tm->tm_mday << "_"  // Dia
+        << std::setw(2) << std::setfill('0') << now_tm->tm_hour << "-"  // Hora
+        << std::setw(2) << std::setfill('0') << now_tm->tm_min << "-"  // Minuto
+        << std::setw(2) << std::setfill('0') << now_tm->tm_sec;  // Segundo
+
+    // Nome do arquivo com base na data e hora
+    std::string filepath = oss.str() + ".xml";
+
+    // Salva o arquivo XML
+    std::ofstream outFile(filepath);
+    if (outFile.is_open()) {
+        outFile << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+        outFile << "<EloMaluco>\n";
+        outFile << "  <EstadoAtual>\n";
+        
+        for (int i = 0; i < 4; i++) {
+            outFile << "      <row>\n";
+            for (int j = 0; j < 4; j++) {
+                outFile << "          <col>" << colorMatrix[i][j] << "</col>\n";
+            }
+            outFile << "      </row>\n";
+        }
+
+        outFile << "  </EstadoAtual>\n";
+        outFile << "</EloMaluco>\n";
+
+        outFile.close();
+    }
+
+    cout << "Estado do jogo Salvo!" << endl;
+    gameSave = true;
+}

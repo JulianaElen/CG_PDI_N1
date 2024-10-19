@@ -7,6 +7,16 @@
 #include <string>
 #include <stack>
 #include <GL/glut.h>
+#include <fstream>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h> 
+#include <fstream>  
+
+#include <ctime>
+#include <iomanip>
+#include <sstream> 
+
 
 #include "tinyxml2.h"
 #include "Objects.hpp"
@@ -73,6 +83,9 @@ private:
 
 	bool isSolved();
 	 bool gameSolved = false; 
+
+	 void saveGameStateToXML();
+	 bool gameSave = false; 
 
 private:
 	void Inicializa(void);
