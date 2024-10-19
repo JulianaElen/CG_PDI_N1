@@ -4,6 +4,7 @@
 #include "Objects.hpp"
 #include <glm/glm.hpp>
 #include <vector>
+#include <unordered_map>
 
 #ifndef __CUBE_HPP__
 #define __CUBE_HPP__
@@ -21,13 +22,14 @@ public:
     ~Cube();
 
     void draw();
-    void drawCube(const vector<Color>& colors);
+    void drawCube(const vector<Color>& colors, const vector<GLuint>& textures);
     void update(int value);
     void colision(int x, int y);
 
      void setColors(const vector<vector<string>>& newColorsMatrix);
      Color mapColor(const string& code);
 
+GLuint mapTexture(const string& code) ;
 private:
     int x, y, z;
     float theta;
@@ -35,7 +37,7 @@ private:
     vec3 points[8];
     vector<vector<string>> colorsMatrix;  // Matriz de cores
 
-   
+   std::unordered_map<std::string, GLuint> textureCache;
 
 private:
     void transform(void);

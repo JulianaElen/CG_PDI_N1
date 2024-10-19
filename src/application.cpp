@@ -33,7 +33,7 @@ Application::~Application()
 //---------------------------------------------------------------------
 void Application::Inicializa(void)
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // cor da janela
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // cor da janela
     xf = 50.0f;
     yf = 50.0f;
     win = 250.0f;
@@ -115,8 +115,8 @@ void Application::processXML(const string &filename)
 //---------------------------------------------------------------------
 void Application::draw()
 {
+    
     glEnable(GL_DEPTH_TEST); // arruma a profundidade
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa a janela e o Depth Buffer
     glLoadIdentity();
 
