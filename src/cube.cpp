@@ -87,18 +87,27 @@ void Cube::draw()
 // Desenho de um cubo com as seis faces e bordas pretas
 void Cube::drawCube(const vector<Color> &colors, const vector<GLuint> &textures)
 {
-    glEnable(GL_TEXTURE_2D); // Habilita a textura
-glEnable(GL_BLEND); // Habilita o blending
-glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Define a função de blending
 
+    glEnable(GL_TEXTURE_2D);                           // Habilita a textura
+    glEnable(GL_BLEND);                                // Habilita o blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Define a função de blending
 
-// Desenha as seis faces do cubo
-glBindTexture(GL_TEXTURE_2D, textures[0]); // Ativa a textura
-glBegin(GL_QUADS);
+    GLfloat mat_ambient[] = {0.3f, 0.3f, 0.3f, 1.0f};  // Ambiente
+    GLfloat mat_diffuse[] = {0.5f, 0.5f, 0.5f, 1.0f};  // Difusa
+    GLfloat mat_specular[] = {1.0f, 1.0f, 1.0f, 1.0f}; // Especular
+    GLfloat mat_shininess[] = {50.0f};                 // Brilho
 
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
+    // Desenha as seis faces do cubo
+    glBindTexture(GL_TEXTURE_2D, textures[0]); // Ativa a textura
+    glBegin(GL_QUADS);
+    glNormal3f(1.0f, 0.0f, 0.0f); // Normal da face frontal
     // Face frontal
-    glColor3f(colors[0].r, colors[0].g, colors[0].b); 
+    glColor3f(colors[0].r, colors[0].g, colors[0].b);
     glTexCoord2f(0.0f, 0.0f);
     glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z); // Canto inferior esquerdo
     glTexCoord2f(1.0f, 0.0f);
@@ -111,6 +120,7 @@ glBegin(GL_QUADS);
 
     glBindTexture(GL_TEXTURE_2D, textures[1]);
     glBegin(GL_QUADS);
+     glNormal3f(0.0f, 0.0f, -1.0f); // Normal da face lateral 1
     // Face lateral 1 (0 1 5 4)
     glColor3f(colors[1].r, colors[1].g, colors[1].b);
     glTexCoord2f(0.0f, 0.0f);
@@ -126,23 +136,23 @@ glBegin(GL_QUADS);
     // Face traseira (4, 5, 6, 7)
     glBindTexture(GL_TEXTURE_2D, textures[2]);
     glBegin(GL_QUADS);
+     glNormal3f(-1.0f, 0.0f, 0.0f); // Normal da face traseira
     glColor3f(colors[2].r, colors[2].g, colors[2].b);
     // Invertendo coordenadas de textura na vertical
-    glTexCoord2f(0.0f, 0.0f);  // Canto superior esquerdo (anteriormente 0.0f, 1.0f)
-    glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z); // Canto inferior esquerdo
-    glTexCoord2f(1.0f, 0.0f);  // Canto superior direito (anteriormente 1.0f, 1.0f)
-    glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z); // Canto inferior direito
-    glTexCoord2f(1.0f, 1.0f);  // Canto inferior direito (anteriormente 1.0f, 0.0f)
-    glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z); // Canto superior direito
-    glTexCoord2f(0.0f, 1.0f);  // Canto inferior esquerdo (anteriormente 0.0f, 0.0f)
-    glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z); // Canto superior esquerdo
+    glTexCoord2f(0.0f, 0.0f);                                        
+    glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z); 
+    glTexCoord2f(0.0f, 1.0f);                                         
+    glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z); 
+    glTexCoord2f(1.0f, 1.0f);                                         
+    glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z); 
+    glTexCoord2f(01.0f, 0.0f);                                      
+    glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z); 
     glEnd();
-
-
 
     // Face lateral 2 (3 2 6 7)
     glBindTexture(GL_TEXTURE_2D, textures[3]);
     glBegin(GL_QUADS);
+    glNormal3f(0.0f, 0.0f, 1.0f); // Normal 
     glColor3f(colors[3].r, colors[3].g, colors[3].b);
     glTexCoord2f(0.0f, 0.0f);
     glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
@@ -156,6 +166,7 @@ glBegin(GL_QUADS);
 
     // Face superior (0 3 7 4)
     glColor3f(0.3f, 0.3f, 0.3f);
+     glNormal3f(0.0f, 1.0f, 0.0f); // Normal 
     glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);
     glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
     glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z);
@@ -163,6 +174,7 @@ glBegin(GL_QUADS);
 
     // Face inferior
     glColor3f(0.3f, 0.3f, 0.3f);
+    glNormal3f(0.0f, -1.0f, 0.0f);
     glVertex3f(points_base[1].x, points_base[1].y, points_base[1].z);
     glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z);
     glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z);
@@ -172,8 +184,8 @@ glBegin(GL_QUADS);
     glEnd();
 
     // Desenha as 12 bordas pretas no cubo, para boa aparencia
-    glColor3f(0.3f, 0.3f, 0.3f);
-    glLineWidth(3.0f); 
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glLineWidth(2.5f);
     glBegin(GL_LINES);
 
     glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);

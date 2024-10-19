@@ -23,7 +23,7 @@ using namespace glm;
 class Application
 {
 public:
-	Application(int argc, char** argv);
+	Application(int argc, char **argv);
 	~Application(void);
 
 	void draw();
@@ -33,24 +33,24 @@ public:
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
 
-	void processXML(const string& filename);
+	void processXML(const string &filename);
+void setLight();
 
 private:
-
 	int time;
-	
+
 	GLfloat xf;
 	GLfloat yf;
 	GLfloat win;
 	GLint view_w;
 	GLint view_h;
 
-	list<Objects*> list_;
+	list<Objects *> list_;
 	vector<vector<string>> colorMatrix; // Matriz de cores
 
 	void printColorMatrix() const;
 
-    void loadColorsFromFile(const string& filename);
+	void loadColorsFromFile(const string &filename);
 
 	float globalRotation;
 
@@ -62,8 +62,8 @@ private:
 
 	void selectCube(int index);
 
-	void rotateRight(); 
-	void rotateLeft(); 
+	void rotateRight();
+	void rotateLeft();
 
 	void drawText(float x, float y, const char *message);
 
@@ -72,10 +72,8 @@ private:
 	void updateCubeColors();
 
 private:
-
-	void Inicializa (void);
+	void Inicializa(void);
 	bool insert_object();
-	
 };
 
 #endif

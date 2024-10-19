@@ -115,36 +115,21 @@ void Application::processXML(const string &filename)
 //---------------------------------------------------------------------
 void Application::draw()
 {
-    
-    glEnable(GL_DEPTH_TEST); // arruma a profundidade
+    glEnable(GL_DEPTH_TEST);                            // arruma a profundidade
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpa a janela e o Depth Buffer
+
+
     glLoadIdentity();
+
+    setLight();
 
     glTranslatef(7.5f, 0.0f, 7.5f);
 
-    glRotatef(globalRotation, 0.0f, 1.0f, 0.0f); //Rotação global
+    glRotatef(globalRotation, 0.0f, 1.0f, 0.0f); // Rotação global
 
     glTranslatef(-7.5f, 0.0f, -7.5f);
 
-    // Desenha os eixos x, y e z
-    // glLineWidth(2.0f);
-    // glBegin(GL_LINES);
 
-    // glColor3f(1.0f, 0.0f, 0.0f); //vermelho
-    // glVertex3f(-100.0f, 0.0f, 0.0f);
-    // glVertex3f(100.0f, 0.0f, 0.0f);
-
-    // glColor3f(0.0f, 1.0f, 0.0f); //verde
-    // glVertex3f(0.0f, -100.0f, 0.0f);
-    // glVertex3f(0.0f, 100.0f, 0.0f);
-
-    // glColor3f(0.0f, 0.0f, 1.0f); //azual
-    // glVertex3f(0.0f, 0.0f, -100.0f);
-    // glVertex3f(0.0f, 0.0f, 100.0f);
-
-    // glEnd();
-
-    // glColor3f(1.0f, 1.0f, 1.0f);
 
     // Desenha os cubos
     for (auto obj : list_)
@@ -180,11 +165,11 @@ void Application::drawFixedText()
     glColor3f(0.80f, 0.80f, 0.80f); // Cor branca para o texto
 
     // Desenhando umas instruções aleatorias que vão ser colocadas no menu depois
-    drawText(-60.0f, -15.f, "Instrucoes para jogar: ");
-    drawText(-60.0f, -22.f, "SETAS rotacionam o Elo Maluco;");
-    drawText(-60.0f, -27.f, "Setas para cima e para baixo movem a casa vazia;");
-    drawText(-60.0f, -32.f, "F1 e F2 selecionam o cubo;");
-    drawText(-60.0f, -37.f, "CRTL + SETAS rotacionam o cubo selecionado;");
+  //  drawText(-60.0f, -15.f, "Instrucoes para jogar: ");
+   // drawText(-60.0f, -22.f, "SETAS rotacionam o Elo Maluco;");
+   // drawText(-60.0f, -27.f, "Setas para cima e para baixo movem a casa vazia;");
+    //drawText(-60.0f, -32.f, "F1 e F2 selecionam o cubo;");
+   // drawText(-60.0f, -37.f, "CRTL + SETAS rotacionam o cubo selecionado;");
 
     // Vericiando qual cubo foi selecionado, para mostrar uma seta informativa
     if (selectedCubeIndex != -1)
@@ -284,11 +269,9 @@ void Application::MouseHandle(int button, int state, int x, int y)
 {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
-        
     }
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
     {
-        
     }
 }
 //---------------------------------------------------------------------
@@ -301,21 +284,27 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_LEFT:
-        if (ctrlPressed) {
+        if (ctrlPressed)
+        {
             // Ação quando Ctrl + Seta Esquerda é pressionado
-           rotateLeft();
-        } else {
+            rotateLeft();
+        }
+        else
+        {
             // Ação quando apenas Seta Esquerda é pressionada
-            
-             globalRotation -= 5.0f; // Rotaciona 5 graus no sentido anti-horário
+
+            globalRotation -= 5.0f; // Rotaciona 5 graus no sentido anti-horário
         }
         break;
 
     case GLUT_KEY_RIGHT:
-        if (ctrlPressed) {
+        if (ctrlPressed)
+        {
             // Ação quando Ctrl + Seta Direita é pressionado
             rotateRight();
-        } else {
+        }
+        else
+        {
             // Ação quando apenas Seta Direita é pressionada
             globalRotation += 5.0f; // Rotaciona 5 graus no sentido horário
         }
@@ -417,7 +406,7 @@ void Application::rotateLeft()
     if (selectedCubeIndex != -1) // Verifica se o cubo foi selecionado
     {
         auto &matrix = colorMatrix[selectedCubeIndex]; // Passa a matriz/linha do cubo selecionado por referencia
-        string aux = matrix[0];                          // Guarda a primeira cor (pois ela vai virar a ultima devido ao deslocamento)
+        string aux = matrix[0];                        // Guarda a primeira cor (pois ela vai virar a ultima devido ao deslocamento)
 
         for (int i = 0; i < matrix.size() - 1; ++i)
         {
@@ -442,7 +431,7 @@ void Application::rotateRight()
     if (selectedCubeIndex != -1)
     {
         auto &matrix = colorMatrix[selectedCubeIndex]; // Paassa a matriz/linha do cubo selecionado por referencia
-        string aux = matrix.back();                      // Guarda a última cor, pois ela vai virar a primeira
+        string aux = matrix.back();                    // Guarda a última cor, pois ela vai virar a primeira
 
         for (int i = matrix.size() - 1; i > 0; --i)
         {
@@ -472,4 +461,35 @@ void Application::updateCubeColors()
             cube->setColors(colorMatrix); // Atualiza se for um Cube
         }
     }
+}
+
+void Application::setLight()
+{
+    // Habilitar iluminação
+    glEnable(GL_LIGHTING);
+
+    // Propriedades da luz
+    GLfloat light_position[] = {50.0f, 50.0f, 50.0f, 1.0f}; // Luz em coordenadas homogêneas
+    
+    GLfloat light_ambient[] = {0.3f, 0.3f, 0.3f, 1.0f};    // Luz ambiente
+    GLfloat light_diffuse[] = {0.9f, 0.9f, 0.9f, 1.0f};    // Luz difusa
+    GLfloat light_specular[] = {0.5f, 0.5f, 0.5f, 1.0f};   // Luz especular
+
+    // Configurar luz
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    
+    // Habilitar a luz
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_DEPTH_TEST);
+
+    // Configurar modelo de iluminação
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    GLfloat lmodel_ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
 }
