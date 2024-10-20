@@ -231,6 +231,7 @@ void Application::draw()
     if (menuVisible)
     {
         drawMenu();
+        
     }
     // Desenhado alguns textos na tela
     // drawFixedText(); //TIrei o Desenho do TExto somente para aparecer somente o menu
