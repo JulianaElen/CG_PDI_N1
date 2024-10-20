@@ -16,7 +16,6 @@ Application::Application(int argc, char **argv)
 {
     // Variaável global do MENU
     globalAppInstance = this; // Inicializa o ponteiro global com a instância atual
-    
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -30,6 +29,7 @@ Application::Application(int argc, char **argv)
     menuVisible = true; // Suponha que o menu esteja visível inicialmente
     // Cria o menu
     createMenu();
+    // createLoadMenu(); // Chama a função que cria o submenu
 
     processXML("../data/EloMaluco_estadoAtual_teste01.xml");
 
@@ -57,9 +57,23 @@ void Application::Inicializa(void)
 //{
 //	glutDisplayFunc(Application::Desenha);
 //}
-//_______________MENU_____________________________________________________
+//_______________MENU_____________________________________________________________________
 // Função para criar o menu no GLUT
-void Application::createMenu()
+
+void Application::createLoadMenu()  // Submenu1
+{
+    std::vector<std::string> arquivos = listarArquivosXML("../data"); // Lista arquivos no diretório
+    int submenuID = glutCreateMenu(menuCallbackWrapper);              // Cria submenu
+
+    for (size_t i = 0; i < arquivos.size(); ++i)
+    {
+        glutAddMenuEntry(arquivos[i].c_str(), i + 6); // Adiciona arquivos ao submenu, IDs começando de 6
+    }
+    glutAddSubMenu("Voltar o Menu principal", menuID);
+    glutAttachMenu(GLUT_RIGHT_BUTTON); // Anexa o submenu ao botão direito do mouse
+}
+
+void Application::createMenu() //submenu2
 {
     menuID = glutCreateMenu(menuCallbackWrapper); // Cria o menu e associa o callback
     glutAddMenuEntry("Iniciar aleatoriamente e jogar manualmente", 1);
@@ -67,6 +81,9 @@ void Application::createMenu()
     glutAddMenuEntry("Iniciar por arquivo XML e executar passo a passo", 3);
     glutAddMenuEntry("Salvar", 4);
     glutAddMenuEntry("Sair", 5);
+    // Adiciona o submenu que lista os arquivos XML
+
+    glutAddSubMenu("Carregar XML", submenuID); // Adiciona o submenu ao menu principal
 
     glutAttachMenu(GLUT_RIGHT_BUTTON); // Anexa o menu ao botão direito do mouse
 }
@@ -74,6 +91,7 @@ void Application::createMenu()
 // Função de callback do menu GLUT
 void Application::menuCallback(int value)
 {
+
     switch (value)
     {
     case 1:
@@ -83,9 +101,11 @@ void Application::menuCallback(int value)
         // Exemplo: iniciarJogoAleatorio();
         break;
     case 2:
-        // Carregar estado do XML e jogar manualmente
-        processXML("../data/EloMaluco_estadoAtual_teste01.xml");
-        std::cout << "Carregar estado do XML e jogar manualmente" << std::endl;
+        std::cout << "Clique com o botão direito do mouse para selecionar o estado salvo" << std::endl;
+        // Usando um timer para atrasar a seleção do arquivo XML 
+        glutTimerFunc(100, [](int value)
+                      { globalAppInstance->createLoadMenu(); }, 0);
+        // createLoadMenu(); // a  função cria um submenu de seleção
         break;
     case 3:
         // Iniciar jogo por arquivo XML e executar o passo a passo
@@ -100,8 +120,6 @@ void Application::menuCallback(int value)
     case 5:
         // Sair do Jogo
         exit(0);
-        break;
-    default:
         break;
     }
     glutPostRedisplay(); // Re-desenha a tela após o menu ser usado
@@ -131,10 +149,6 @@ void Application::drawMenu()
 
     // Desenha esses texto na tela, (Não precisa porque no Menu poup já aparece)
     // drawText(10, view_h - 30, "Menu:");
-    // drawText(10, view_h - 60, "1. Iniciar aleatoriamente e jogar manualmente");
-    // drawText(10, view_h - 90, "2. Iniciar por arquivo XML e jogar manualmente");
-    // drawText(10, view_h - 120, "3. Iniciar por arquivo XML e executar passo a passo");
-    // drawText(10, view_h - 150, "4. Sair");
 
     // Restaura as configurações originais
     glMatrixMode(GL_PROJECTION);
@@ -157,6 +171,32 @@ void Application::printColorMatrix() const
         }
         std::cout << std::endl;
     }
+}
+
+//_____________________________________________________________________
+
+// Função para listar arquivos XML no diretório especificado para ao menu
+std::vector<std::string> Application::listarArquivosXML(const std::string &directory)
+{
+    std::vector<std::string> arquivos;
+    std::string command = "ls " + directory + "/*.xml > temp.txt"; // Comando para listar arquivos XML
+    std::system(command.c_str());
+
+    std::ifstream infile("temp.txt");
+    std::string fileName;
+    while (std::getline(infile, fileName))
+    {
+        std::cout << "Arquivo encontrado: " << fileName << std::endl;        // Adicionado para depuração
+        arquivos.push_back(fileName.substr(fileName.find_last_of('/') + 1)); // Extrai apenas o nome do arquivo
+    }
+    std::remove("temp.txt"); // Remove o arquivo temporário
+
+    if (arquivos.empty())
+    {
+        std::cout << "Nenhum arquivo XML encontrado." << std::endl; // Adicionado para depuração
+    }
+
+    return arquivos;
 }
 
 //---------------------------------------------------------------------
@@ -690,7 +730,7 @@ bool Application::isSolved()
     cout << "Jogo resolvido!" << endl;
     return true;
 }
-
+//___________________________________ Salvando o estado no xml_____________________________________________________//
 void Application::saveGameStateToXML()
 {
     // Cria o diretório "data" se não existir

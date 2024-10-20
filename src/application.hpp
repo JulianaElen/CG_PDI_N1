@@ -47,13 +47,17 @@ public:
 
 	void processXML(const string &filename);
 	void setLight();
-
+	// Funções para a criação do submenu e listagem de arquivos XML
+	void createLoadMenu();													  // Cria o submenu de carregamento de arquivos XML
+	std::vector<std::string> listarArquivosXML(const std::string &directory); // Nova função
+	void menuCallback(int value);
 	// Variáveis para o menu
 	int menuID;
+	int submenuID;
 	bool menuVisible;
 
 	// Função estática para servir como wrapper de callback do menu
-	static void menuCallbackWrapper(int value); 
+	static void menuCallbackWrapper(int value);
 
 private:
 	int time;
@@ -95,14 +99,14 @@ private:
 
 	void saveGameStateToXML();
 	bool gameSave = false;
-	//Variável estática do MENU
-	static Application* getInstance();
+	// Variável estática do MENU
+	static Application *getInstance();
 
 private:
 	// Função para lidar com a seleção do menu, tratar as opções do menu
-	void menuCallback(int value); 
-	static Application* appInstance;
-	
+	// void menuCallback(int value);
+	static Application *appInstance;
+
 	void Inicializa(void);
 	bool insert_object();
 };
