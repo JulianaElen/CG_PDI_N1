@@ -14,6 +14,9 @@ Application *Application::appInstance = nullptr;
 // Application Class (construtor)
 Application::Application(int argc, char **argv)
 {
+    // Variaável global do MENU
+    globalAppInstance = this; // Inicializa o ponteiro global com a instância atual
+    
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -62,7 +65,7 @@ void Application::createMenu()
     glutAddMenuEntry("Iniciar aleatoriamente e jogar manualmente", 1);
     glutAddMenuEntry("Iniciar por arquivo XML e jogar manualmente", 2);
     glutAddMenuEntry("Iniciar por arquivo XML e executar passo a passo", 3);
-    glutAddMenuEntry("Salvar e sair", 4);
+    glutAddMenuEntry("Salvar", 4);
     glutAddMenuEntry("Sair", 5);
 
     glutAttachMenu(GLUT_RIGHT_BUTTON); // Anexa o menu ao botão direito do mouse
@@ -90,8 +93,8 @@ void Application::menuCallback(int value)
         // Exemplo: iniciarJogoPorXMLPassoAPasso();
         break;
     case 4:
-        // Salvar o estado atual do Jogo e sai 
-        processXML("../data/EloMaluco_estadoAtual_teste01.xml");
+        // Salvar o estado atual do Jogo e sai
+        saveGameStateToXML();
         std::cout << "Salvando o estado atual do jogo" << std::endl;
         break;
     case 5:
@@ -158,6 +161,7 @@ void Application::printColorMatrix() const
 
 //---------------------------------------------------------------------
 // Leitura do arquivo xml e processamento dos dados sobre as cores contidos nele. Esses dados sao  inseridoas na matriz de cores
+
 void Application::processXML(const string &filename)
 {
 
@@ -191,6 +195,7 @@ void Application::processXML(const string &filename)
     // percorre cada row e col's dentro dela. Armazena seus respctivos codigos (utilizando o mapeamento) dentro da nossa matriz de cores
     for (XMLElement *row = estadoAtual->FirstChildElement("row"); row != nullptr; row = row->NextSiblingElement("row"))
     {
+        int colCount = 0; // Verificar quantas colunas foram lidas
         vector<string> colorRow;
         for (XMLElement *col = row->FirstChildElement("col"); col != nullptr; col = col->NextSiblingElement("col"))
         {
@@ -199,9 +204,21 @@ void Application::processXML(const string &filename)
             {
                 string code(text);
                 colorRow.push_back(code); // Adiciona o código direto
+                colCount++;
             }
         }
+        // Verifica se a quantidade de colunas por linha é a esperada
+        if (colCount != 4)
+        {
+            cerr << "Erro: Esperado 4 colunas, mas encontrado " << colCount << endl;
+            return; // Sai da função se o formato estiver incorreto
+        }
         colorMatrix.push_back(colorRow);
+    }
+    if (colorMatrix.size() != 4)
+    {
+        cerr << "Erro: Esperado 4 linhas, mas encontrado " << colorMatrix.size() << endl;
+        return; // Sai da função se o número de linhas estiver incorreto
     }
     printColorMatrix();
 }
@@ -231,10 +248,9 @@ void Application::draw()
     if (menuVisible)
     {
         drawMenu();
-        
     }
     // Desenhado alguns textos na tela
-    // drawFixedText(); //TIrei o Desenho do TExto somente para aparecer somente o menu
+    drawFixedText(); // TIrei o Desenho do TExto somente para aparecer somente o menu
 
     // mostrando
     glutSwapBuffers();
@@ -427,9 +443,9 @@ void Application::SpecialKeyHandle(int key, int x, int y)
     case GLUT_KEY_F2: // Seleciona o cubo 2
         selectCube(3);
         break;
-    case GLUT_KEY_INSERT:     // Tecla para salvar o estado do jogo
-        saveGameStateToXML(); // Salva no arquivo 'estado_jogo.xml'
-        break;
+        // case GLUT_KEY_INSERT:     // Tecla para salvar o estado do jogo
+        //  saveGameStateToXML(); // Salva no arquivo 'estado_jogo.xml'
+        //  break;
     }
 
     glutPostRedisplay(); // Re-desenhar a cena
