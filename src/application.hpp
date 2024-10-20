@@ -10,13 +10,12 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h> 
-#include <fstream>  
+#include <unistd.h>
+#include <fstream>
 
 #include <ctime>
 #include <iomanip>
-#include <sstream> 
-
+#include <sstream>
 
 #include "tinyxml2.h"
 #include "Objects.hpp"
@@ -36,6 +35,9 @@ public:
 	Application(int argc, char **argv);
 	~Application(void);
 
+	// Função para criar o menu
+	void createMenu();
+	void drawMenu(); // Função que desenha o meunu
 	void draw();
 	void resize(GLsizei w, GLsizei h);
 	void KeyboardHandle(unsigned char key, int x, int y);
@@ -44,7 +46,14 @@ public:
 	void update(int value, void (*func_ptr)(int));
 
 	void processXML(const string &filename);
-void setLight();
+	void setLight();
+
+	// Variáveis para o menu
+	int menuID;
+	bool menuVisible;
+
+	// Função estática para servir como wrapper de callback do menu
+	static void menuCallbackWrapper(int value); 
 
 private:
 	int time;
@@ -82,12 +91,18 @@ private:
 	void updateCubeColors();
 
 	bool isSolved();
-	 bool gameSolved = false; 
+	bool gameSolved = false;
 
-	 void saveGameStateToXML();
-	 bool gameSave = false; 
+	void saveGameStateToXML();
+	bool gameSave = false;
+	//Variável estática do MENU
+	static Application* getInstance();
 
 private:
+	// Função para lidar com a seleção do menu, tratar as opções do menu
+	void menuCallback(int value); 
+	static Application* appInstance;
+	
 	void Inicializa(void);
 	bool insert_object();
 };
