@@ -13,6 +13,11 @@
 #include <unistd.h>
 #include <fstream>
 
+#include <cstdlib>
+#include <algorithm> 
+
+#include <random>
+
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -44,6 +49,8 @@ public:
 	void MouseHandle(int button, int state, int x, int y);
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
+
+void RandomColorMatrix();
 
 	void processXML(const string &filename);
 	void setLight();

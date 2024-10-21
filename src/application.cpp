@@ -98,6 +98,7 @@ void Application::menuCallback(int value)
         // Iniciar o jogo manualmente com estado aleatório
         // Função para iniciar o jogo com estado aleatório (a ser implementada)
         std::cout << "Iniciar aleatoriamente e jogar manualmente" << std::endl;
+        RandomColorMatrix();
         // Exemplo: iniciarJogoAleatorio();
         break;
     case 2:
@@ -326,13 +327,7 @@ void Application::drawFixedText()
     // Define a cor do texto
     glColor3f(1.0f, 1.0f, 1.0f); // Cor branca para o texto
 
-    // Desenhando umas instruções aleatorias que vão ser colocadas no menu depois
-    //  drawText(-60.0f, -15.f, "Instrucoes para jogar: ");
-    // drawText(-60.0f, -22.f, "SETAS rotacionam o Elo Maluco;");
-    // drawText(-60.0f, -27.f, "Setas para cima e para baixo movem a casa vazia;");
-    // drawText(-60.0f, -32.f, "F1 e F2 selecionam o cubo;");
-    // drawText(-60.0f, -37.f, "CRTL + SETAS rotacionam o cubo selecionado;");
-
+   
     // Vericiando qual cubo foi selecionado, para mostrar uma seta informativa
     if (selectedCubeIndex != -1)
     {
@@ -779,4 +774,35 @@ void Application::saveGameStateToXML()
 
     cout << "Estado do jogo Salvo!" << endl;
     gameSave = true;
+}
+
+void Application::RandomColorMatrix() {
+    // Lista dos elementos a serem adicionados
+    std::vector<std::string> items = {"vms", "vmm", "vmm", "vmi", 
+                                       "vrs", "vrm", "vrm", "vri", 
+                                       "ams", "amm", "amm", "ami", 
+                                       "brs", "brm", "bri", "vzo"};
+
+    // Embaralha a lista
+    std::random_device rd; // Semente para gerador de números aleatórios
+    std::mt19937 g(rd()); // Gerador de números aleatórios
+    std::shuffle(items.begin(), items.end(), g);
+
+    colorMatrix.clear(); // Limpa a matriz existente
+
+    // Preencher a matriz de cores com 4 linhas e 4 colunas
+    for (int i = 0; i < 4; ++i) {
+        std::vector<std::string> row;
+
+        for (int j = 0; j < 4; ++j) {
+            if (!items.empty()) {
+                row.push_back(items.back()); // Pega o último item (aleatório)
+                items.pop_back(); // Remove o item da lista
+            }
+        }
+        colorMatrix.push_back(row); // Adiciona a linha à matriz
+    }
+
+    printColorMatrix(); // Imprime a matriz para verificar
+    updateCubeColors();
 }
