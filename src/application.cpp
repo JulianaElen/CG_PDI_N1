@@ -32,7 +32,6 @@ Application::Application(int argc, char **argv)
     // createLoadMenu(); // Chama a função que cria o submenu
 
     processXML("../data/EloMaluco_estadoAtual_teste01.xml");
-
     insert_object();
 }
 
@@ -60,7 +59,7 @@ void Application::Inicializa(void)
 //_______________MENU_____________________________________________________________________
 // Função para criar o menu no GLUT
 
-void Application::createLoadMenu()  // Submenu1
+void Application::createLoadMenu() // Submenu1
 {
     std::vector<std::string> arquivos = listarArquivosXML("../data"); // Lista arquivos no diretório
     int submenuID = glutCreateMenu(menuCallbackWrapper);              // Cria submenu
@@ -73,7 +72,7 @@ void Application::createLoadMenu()  // Submenu1
     glutAttachMenu(GLUT_RIGHT_BUTTON); // Anexa o submenu ao botão direito do mouse
 }
 
-void Application::createMenu() //submenu2
+void Application::createMenu() // submenu2
 {
     menuID = glutCreateMenu(menuCallbackWrapper); // Cria o menu e associa o callback
     glutAddMenuEntry("Iniciar aleatoriamente e jogar manualmente", 1);
@@ -103,7 +102,7 @@ void Application::menuCallback(int value)
         break;
     case 2:
         std::cout << "Clique com o botão direito do mouse para selecionar o estado salvo" << std::endl;
-        // Usando um timer para atrasar a seleção do arquivo XML 
+        // Usando um timer para atrasar a seleção do arquivo XML
         glutTimerFunc(100, [](int value)
                       { globalAppInstance->createLoadMenu(); }, 0);
         // createLoadMenu(); // a  função cria um submenu de seleção
@@ -122,6 +121,22 @@ void Application::menuCallback(int value)
         // Sair do Jogo
         exit(0);
         break;
+    default:
+    {
+        // Subtraímos 6 para obter o índice do arquivo
+        int index = value - 6;
+        std::vector<std::string> arquivos = listarArquivosXML("../data"); // Lista novamente os arquivos
+
+        if (index >= 0 && index < arquivos.size())
+        {
+            std::string selectedFile = arquivos[index];
+            // Construa o caminho completo para o arquivo XML
+            std::string fullPath = "../data/" + selectedFile;
+            std::cout << "Processando arquivo XML: " << fullPath << std::endl;
+            processXML(fullPath.c_str()); // Processa o arquivo selecionado
+        }
+        break;
+    }
     }
     glutPostRedisplay(); // Re-desenha a tela após o menu ser usado
 }
@@ -261,6 +276,8 @@ void Application::processXML(const string &filename)
         cerr << "Erro: Esperado 4 linhas, mas encontrado " << colorMatrix.size() << endl;
         return; // Sai da função se o número de linhas estiver incorreto
     }
+
+    updateCubeColors();
     printColorMatrix();
 }
 
@@ -301,15 +318,6 @@ void Application::draw()
 void Application::drawFixedText()
 {
 
-    if (gameSolved)
-    {
-        drawText(-20.0f, -15.f, "O jogo esta resolvido!"); // Adicione a mensagem na tela
-    }
-
-    if (gameSave)
-    {
-        drawText(-20.0f, -25.f, "O jogo esta salvo!"); // Adicione a mensagem na tela
-    }
     // Salva as configurações de projeção e visão
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -324,10 +332,24 @@ void Application::drawFixedText()
     glPushMatrix();
     glLoadIdentity();
 
+    if (gameSolved)
+    {
+        drawText(-20.0f, -10.f, "O jogo esta resolvido!"); // Adicione a mensagem na tela
+    }
+
+    if (gameSave)
+    {
+        drawText(-20.0f, -16.f, "O jogo esta salvo!"); // Adicione a mensagem na tela
+    }
+
     // Define a cor do texto
     glColor3f(1.0f, 1.0f, 1.0f); // Cor branca para o texto
+    drawText(-60.0f, 100.0f, "Para o MENU use o botao direito do MOUSE");
 
-   
+    drawText(-59.5f, -25.0f, "SETAS para gira o Elo");
+    drawText(-59.0f, -30.0f, "F1 e F2 para selecionar os cubos");
+    drawText(-58.5f, -35.0f, "CTRL + SETAS para giras os cubos");
+
     // Vericiando qual cubo foi selecionado, para mostrar uma seta informativa
     if (selectedCubeIndex != -1)
     {
@@ -776,28 +798,32 @@ void Application::saveGameStateToXML()
     gameSave = true;
 }
 
-void Application::RandomColorMatrix() {
+void Application::RandomColorMatrix()
+{
     // Lista dos elementos a serem adicionados
-    std::vector<std::string> items = {"vms", "vmm", "vmm", "vmi", 
-                                       "vrs", "vrm", "vrm", "vri", 
-                                       "ams", "amm", "amm", "ami", 
-                                       "brs", "brm", "bri", "vzo"};
+    std::vector<std::string> items = {"vms", "vmm", "vmm", "vmi",
+                                      "vrs", "vrm", "vrm", "vri",
+                                      "ams", "amm", "amm", "ami",
+                                      "brs", "brm", "bri", "vzo"};
 
     // Embaralha a lista
     std::random_device rd; // Semente para gerador de números aleatórios
-    std::mt19937 g(rd()); // Gerador de números aleatórios
+    std::mt19937 g(rd());  // Gerador de números aleatórios
     std::shuffle(items.begin(), items.end(), g);
 
     colorMatrix.clear(); // Limpa a matriz existente
 
     // Preencher a matriz de cores com 4 linhas e 4 colunas
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
         std::vector<std::string> row;
 
-        for (int j = 0; j < 4; ++j) {
-            if (!items.empty()) {
+        for (int j = 0; j < 4; ++j)
+        {
+            if (!items.empty())
+            {
                 row.push_back(items.back()); // Pega o último item (aleatório)
-                items.pop_back(); // Remove o item da lista
+                items.pop_back();            // Remove o item da lista
             }
         }
         colorMatrix.push_back(row); // Adiciona a linha à matriz
