@@ -88,14 +88,14 @@ void Cube::draw()
 void Cube::drawCube(const vector<Color> &colors, const vector<GLuint> &textures)
 {
 
-    glEnable(GL_TEXTURE_2D);                           // Habilita a textura
-    glEnable(GL_BLEND);                                // Habilita o blending
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Define a função de blending
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    GLfloat mat_ambient[] = {0.3f, 0.3f, 0.3f, 1.0f};  // Ambiente
-    GLfloat mat_diffuse[] = {0.5f, 0.5f, 0.5f, 1.0f};  // Difusa
-    GLfloat mat_specular[] = {1.0f, 1.0f, 1.0f, 1.0f}; // Especular
-    GLfloat mat_shininess[] = {50.0f};                 // Brilho
+    GLfloat mat_ambient[] = {0.3f, 0.3f, 0.3f, 1.0f};
+    GLfloat mat_diffuse[] = {0.5f, 0.5f, 0.5f, 1.0f};
+    GLfloat mat_specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    GLfloat mat_shininess[] = {50.0f};
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
@@ -104,23 +104,29 @@ void Cube::drawCube(const vector<Color> &colors, const vector<GLuint> &textures)
 
     // Desenha as seis faces do cubo
     glBindTexture(GL_TEXTURE_2D, textures[0]); // Ativa a textura
+
     glBegin(GL_QUADS);
-    glNormal3f(1.0f, 0.0f, 0.0f); // Normal da face frontal
+
+    glNormal3f(1.0f, 0.0f, 0.0f);
+
     // Face frontal
     glColor3f(colors[0].r, colors[0].g, colors[0].b);
     glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z); // Canto inferior esquerdo
+    glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);
     glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z); // Canto superior esquerdo
+    glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
     glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z); // Canto superior direito
+    glVertex3f(points_base[2].x, points_base[2].y, points_base[2].z);
     glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(points_base[1].x, points_base[1].y, points_base[1].z); // Canto inferior direito
+    glVertex3f(points_base[1].x, points_base[1].y, points_base[1].z);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, textures[1]);
+
     glBegin(GL_QUADS);
-     glNormal3f(0.0f, 0.0f, -1.0f); // Normal da face lateral 1
+
+    glNormal3f(0.0f, 0.0f, -1.0f); 
+
     // Face lateral 1 (0 1 5 4)
     glColor3f(colors[1].r, colors[1].g, colors[1].b);
     glTexCoord2f(0.0f, 0.0f);
@@ -133,26 +139,32 @@ void Cube::drawCube(const vector<Color> &colors, const vector<GLuint> &textures)
     glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z);
     glEnd();
 
-    // Face traseira (4, 5, 6, 7)
+    
     glBindTexture(GL_TEXTURE_2D, textures[2]);
+
     glBegin(GL_QUADS);
-     glNormal3f(-1.0f, 0.0f, 0.0f); // Normal da face traseira
+
+    glNormal3f(-1.0f, 0.0f, 0.0f); 
+
+    // Face traseira (4, 5, 6, 7)
     glColor3f(colors[2].r, colors[2].g, colors[2].b);
-    // Invertendo coordenadas de textura na vertical
-    glTexCoord2f(0.0f, 0.0f);                                        
-    glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z); 
-    glTexCoord2f(0.0f, 1.0f);                                         
-    glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z); 
-    glTexCoord2f(1.0f, 1.0f);                                         
-    glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z); 
-    glTexCoord2f(01.0f, 0.0f);                                      
-    glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z); 
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(points_base[4].x, points_base[4].y, points_base[4].z);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(points_base[6].x, points_base[6].y, points_base[6].z);
+    glTexCoord2f(01.0f, 0.0f);
+    glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z);
     glEnd();
 
-    // Face lateral 2 (3 2 6 7)
     glBindTexture(GL_TEXTURE_2D, textures[3]);
+
     glBegin(GL_QUADS);
-    glNormal3f(0.0f, 0.0f, 1.0f); // Normal 
+
+    glNormal3f(0.0f, 0.0f, 1.0f); 
+
+    // Face lateral 2 (3 2 6 7)
     glColor3f(colors[3].r, colors[3].g, colors[3].b);
     glTexCoord2f(0.0f, 0.0f);
     glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
@@ -166,7 +178,7 @@ void Cube::drawCube(const vector<Color> &colors, const vector<GLuint> &textures)
 
     // Face superior (0 3 7 4)
     glColor3f(0.3f, 0.3f, 0.3f);
-     glNormal3f(0.0f, 1.0f, 0.0f); // Normal 
+    glNormal3f(0.0f, 1.0f, 0.0f); 
     glVertex3f(points_base[0].x, points_base[0].y, points_base[0].z);
     glVertex3f(points_base[3].x, points_base[3].y, points_base[3].z);
     glVertex3f(points_base[7].x, points_base[7].y, points_base[7].z);
@@ -181,9 +193,10 @@ void Cube::drawCube(const vector<Color> &colors, const vector<GLuint> &textures)
     glVertex3f(points_base[5].x, points_base[5].y, points_base[5].z);
 
     glBindTexture(GL_TEXTURE_2D, 0); // Desativa a textura após o desenho
+
     glEnd();
 
-    // Desenha as 12 bordas pretas no cubo, para boa aparencia
+    // Desenha as 12 bordas no cubo
     glColor3f(1.0f, 1.0f, 1.0f);
     glLineWidth(2.5f);
     glBegin(GL_LINES);
@@ -243,6 +256,7 @@ Color Cube::mapColor(const string &code)
         return {0.5f, 0.5f, 0.5f}; // cinza
     return {0.0f, 0.0f, 0.0f};     // preto (default)
 }
+
 //---------------------------------------------------------------------
 // Define a nova matriz de cores
 void Cube::setColors(const vector<vector<string>> &newColorMatrix)
@@ -250,15 +264,15 @@ void Cube::setColors(const vector<vector<string>> &newColorMatrix)
     colorsMatrix = newColorMatrix;
 }
 
-void Cube::colision(int x, int y) {}
-
+//---------------------------------------------------------------------
+// Carrega as texturas
 GLuint loadTexture(const char *filename)
 {
     GLuint textureID;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    // Carrega a imagem usando stb_image
+    // Carrega a imagem 
     int width, height, nrChannels;
     unsigned char *data = stbi_load(filename, &width, &height, &nrChannels, STBI_rgb_alpha);
 
@@ -279,12 +293,14 @@ GLuint loadTexture(const char *filename)
     }
     else
     {
-        std::cout << "Failed to load texture" << std::endl;
-        return 0; // Retorna 0 para indicar falha no carregamento
+        cout << "Não foi possivel carregar a textura!" << endl;
+        return 0; // falha no carregamento
     }
     return textureID;
 }
 
+//---------------------------------------------------------------------
+// Mapeamento das texturas designadas
 GLuint Cube::mapTexture(const string &code)
 {
     // Se a textura já foi carregada, retorna o ID armazenado no cache
@@ -308,6 +324,8 @@ GLuint Cube::mapTexture(const string &code)
         textureID = loadTexture("../img/meio.png");
     }
 
-    textureCache[code] = textureID; // Armazena o ID da textura no cache
+    textureCache[code] = textureID;
     return textureID;
 }
+
+void Cube::colision(int x, int y) {}

@@ -14,7 +14,7 @@
 #include <fstream>
 
 #include <cstdlib>
-#include <algorithm> 
+#include <algorithm>
 
 #include <random>
 
@@ -40,9 +40,11 @@ public:
 	Application(int argc, char **argv);
 	~Application(void);
 
-	// Função para criar o menu
 	void createMenu();
-	void drawMenu(); // Função que desenha o meunu
+	void createLoadMenu();	
+	void drawMenu();
+	void RandomColorMatrix();
+
 	void draw();
 	void resize(GLsizei w, GLsizei h);
 	void KeyboardHandle(unsigned char key, int x, int y);
@@ -50,20 +52,17 @@ public:
 	void SpecialKeyHandle(int key, int x, int y);
 	void update(int value, void (*func_ptr)(int));
 
-void RandomColorMatrix();
-
 	void processXML(const string &filename);
+
 	void setLight();
-	// Funções para a criação do submenu e listagem de arquivos XML
-	void createLoadMenu();													  // Cria o submenu de carregamento de arquivos XML
-	std::vector<std::string> listarArquivosXML(const std::string &directory); // Nova função
+	
+	vector<string> listarArquivosXML(const string &directory); 
 	void menuCallback(int value);
-	// Variáveis para o menu
+
 	int menuID;
 	int submenuID;
 	bool menuVisible;
 
-	// Função estática para servir como wrapper de callback do menu
 	static void menuCallbackWrapper(int value);
 
 private:
@@ -76,7 +75,7 @@ private:
 	GLint view_h;
 
 	list<Objects *> list_;
-	vector<vector<string>> colorMatrix; // Matriz de cores
+	vector<vector<string>> colorMatrix; 
 
 	void printColorMatrix() const;
 
@@ -106,12 +105,10 @@ private:
 
 	void saveGameStateToXML();
 	bool gameSave = false;
-	// Variável estática do MENU
+
 	static Application *getInstance();
 
 private:
-	// Função para lidar com a seleção do menu, tratar as opções do menu
-	// void menuCallback(int value);
 	static Application *appInstance;
 
 	void Inicializa(void);
